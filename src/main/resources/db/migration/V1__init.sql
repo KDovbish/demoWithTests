@@ -1,3 +1,6 @@
+create sequence if not exists users_id_seq;
+create sequence if not exists addresses_id_seq;
+
 create table public.users (
                               id integer primary key not null default nextval('users_id_seq'::regclass),
                               name character varying,
