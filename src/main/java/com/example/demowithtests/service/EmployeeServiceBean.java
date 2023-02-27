@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.repository.EmployeeRepository;
 import com.example.demowithtests.util.exception.ResourceNotFoundException;
 import com.example.demowithtests.util.exception.ResourceWasDeletedException;
@@ -149,5 +150,19 @@ public class EmployeeServiceBean implements EmployeeService {
                 .findFirst()
                 .orElse("error?");
         return Optional.ofNullable(opt);
+    }
+
+
+    //  Какие пользователи используют заданный почтовый домен?
+    @Override
+    public List<Employee> getByDomain(String domain, String city) {
+        if (city == null || city.equals("")) return employeeRepository.findByDomain("%@" + domain);
+         else return employeeRepository.findByDomain("%@" + domain, city);
+    }
+
+    //  Кто из мужчин/женщин проживает в заданном городе?
+    @Override
+    public List<Employee> getCityGender(Gender gender, String city) {
+        return employeeRepository.findByCityGender(gender.name(), city);
     }
 }
