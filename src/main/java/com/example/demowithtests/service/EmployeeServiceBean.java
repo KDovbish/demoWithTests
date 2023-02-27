@@ -163,6 +163,6 @@ public class EmployeeServiceBean implements EmployeeService {
     //  Кто из мужчин/женщин проживает в заданном городе?
     @Override
     public List<Employee> getCityGender(Gender gender, String city) {
-        return employeeRepository.findByCityGender(gender.name(), city);
+        return employeeRepository.findByCityGender(gender, city);
     }
 }
