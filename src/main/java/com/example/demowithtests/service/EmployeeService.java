@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.domain.Gender;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -49,5 +50,22 @@ public interface EmployeeService {
     List<String> getSortCountry();
 
     Optional<String> findEmails();
+
+
+    /**
+     * Получить всех пользователей, которые используют заданный почтовый домен
+     * @param domain почтовый домен
+     * @param city город; если указан, то отдаются только пользователи живующие в заданном городе
+     * @return список пользователей
+     */
+    List<Employee> getByDomain(String domain, String city);
+
+    /**
+     * Получить всех пользоваталей заданного пола в пределах одного города
+     * @param gender пол
+     * @param city город
+     * @return список пользователей
+     */
+    List<Employee> getCityGender(Gender gender, String city);
 
 }

@@ -1,6 +1,7 @@
 package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
+import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.dto.EmployeeDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.service.EmployeeService;
@@ -135,4 +136,30 @@ public class Controller {
     public Optional<String> getAllUsersSo() {
         return employeeService.findEmails();
     }
+
+
+    /**
+     * Отдать всех пользователей, использующих заданный почтовый домен
+     * @param domain почтовой домен
+     * @param city город; если указан, то отдаются почтовые домены в пределах заданного города
+     * @return список пользоваталей
+     */
+    @GetMapping("/users/domain")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> findByDomain(@RequestParam String domain, @RequestParam(required = false) String city) {
+        return employeeService.getByDomain(domain, city);
+    }
+
+    /**
+     * Отдать всех пользователей заданного пола в пределах заданного города
+     * @param gender пол
+     * @param city город
+     * @return список пользователей
+     */
+    @GetMapping("/users/citygender")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> findByCityGender(@RequestParam Gender gender, @RequestParam String city) {
+        return employeeService.getCityGender(gender, city);
+    }
+
 }
