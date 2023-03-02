@@ -162,4 +162,20 @@ public class Controller {
         return employeeService.getCityGender(gender, city);
     }
 
+
+    /**
+     * Прописать новое содержимое в столбец denyUsers - список пользователей, которым запрещено использование заданного employee
+     * @param id идентификатор обновляемого employee
+     * @param denyUsers список пользователей
+     * @return обновленный employee
+     */
+    @PutMapping("/users/deny/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Employee updateDenyUsers(@PathVariable Integer id, @RequestParam("users") String denyUsers) {
+        return employeeService.updateDenyUsersById(id, denyUsers);
+    }
+
+
+
+
 }

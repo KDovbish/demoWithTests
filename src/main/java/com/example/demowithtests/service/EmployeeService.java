@@ -68,4 +68,12 @@ public interface EmployeeService {
      */
     List<Employee> getCityGender(Gender gender, String city);
 
+    /**
+     * Прописать для заданного employee список пользователей, которым не разрешено с ним работать
+     * @param id идентификатор employee
+     * @param denyUsers список пользователей; в качестве разделителя - запятая
+     * @return обновленный employee
+     */
+    Employee updateDenyUsersById(Integer id, String denyUsers);
+
 }

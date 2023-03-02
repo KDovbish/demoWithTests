@@ -165,4 +165,12 @@ public class EmployeeServiceBean implements EmployeeService {
     public List<Employee> getCityGender(Gender gender, String city) {
         return employeeRepository.findByCityGender(gender, city);
     }
+
+
+    //  Прописать пользователей, которым запрещено выполнять какие-либо действия с заданным employee
+    public Employee updateDenyUsersById(Integer id, String denyUsers) {
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> (new ResourceNotFoundException()));
+        employee.setDenyUsers(denyUsers);
+        return employeeRepository.save(employee);    }
+
 }
