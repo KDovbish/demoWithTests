@@ -87,18 +87,38 @@ public class EmployeeServiceBean implements EmployeeService {
     }
 
 
-
     @Override
     public Employee updateById(Integer id, Employee employee) {
-        return employeeRepository.findById(id)
-                .map(entity -> {
-                    entity.setName(employee.getName());
-                    entity.setEmail(employee.getEmail());
-                    entity.setCountry(employee.getCountry());
-                    return employeeRepository.save(entity);
-                })
-                .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
+        Employee entity = employeeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
+        if (isCurrentUserAccess(entity)) {
+            if (entity.getVisible() == false) {
+                throw new EntityNotFoundException("Employee was deleted with id = " + id);
+            } else {
+                entity.setName(employee.getName());
+                entity.setEmail(employee.getEmail());
+                entity.setCountry(employee.getCountry());
+                return employeeRepository.save(entity);
+            }
+        } else {
+            throw new EntityAccessDeniedException();
+        }
     }
+
+
+/*
+    private void entityAccessValidation(Employee employee) {
+        if (isCurrentUserAccess(employee)) {
+            if (employee.getVisible() == false) {
+                throw new EntityNotFoundException("Employee was deleted with id = " + id);
+            }
+        } else {
+            throw new EntityAccessDeniedException();
+        }
+    }
+*/
+
+
+
 
     @Override
     public void removeById(Integer id) {
