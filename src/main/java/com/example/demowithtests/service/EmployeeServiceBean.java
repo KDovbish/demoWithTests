@@ -3,6 +3,7 @@ package com.example.demowithtests.service;
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.repository.EmployeeRepository;
+import com.example.demowithtests.util.exception.EntityAccessDeniedException;
 import com.example.demowithtests.util.exception.ResourceNotFoundException;
 import com.example.demowithtests.util.exception.ResourceWasDeletedException;
 import lombok.AllArgsConstructor;
@@ -11,13 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -47,14 +46,47 @@ public class EmployeeServiceBean implements EmployeeService {
 
     @Override
     public Employee getById(Integer id) {
-        var employee = employeeRepository.findById(id)
-                // .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
-                .orElseThrow(ResourceNotFoundException::new);
-         /*if (employee.getIsDeleted()) {
-            throw new EntityNotFoundException("Employee was deleted with id = " + id);
-        }*/
+        var employee = employeeRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+
+        //  Замена null значения isVisible на true
+        changeStatus(employee);
+
+        //  "Стандартный" функционал начинает работать только в случае, если текущему, прошедшему аутентификацию, пользователю,
+        //  разрешен доступ к данной сущности
+        if (isCurrentUserAccess(employee)) {
+            if (employee.getVisible() == false) {
+                throw new EntityNotFoundException("Employee was deleted with id = " + id);
+            }
+        } else {
+            throw new EntityAccessDeniedException("Access denied to entity. Type entity: Employee. id: " + employee.getId());
+        }
+
         return employee;
     }
+
+    private void changeStatus(Employee employee) {
+        log.info("changeStatus(Employee employee) Service - start: id = {}", employee.getId());
+        if (employee.getVisible() == null) {
+            employee.setVisible(Boolean.TRUE);
+            employeeRepository.save(employee);
+        }
+        log.info("changeStatus(Employee employee) Service - end: isVisible = {}", employee.getVisible());
+    }
+
+    /**
+     * Проверить, разрешен ли текущему пользователю доступ к сущности
+     * @param employee проверяемая на доступ сущность
+     * @return true/false
+     */
+    private boolean isCurrentUserAccess(Employee employee) {
+        if (employee.getDenyUsers() == null) return true;
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        return !Arrays.stream(employee.getDenyUsers().split(","))
+                .map(e -> e.trim())
+                .anyMatch(e -> e.equalsIgnoreCase(currentUser));
+    }
+
+
 
     @Override
     public Employee updateById(Integer id, Employee employee) {

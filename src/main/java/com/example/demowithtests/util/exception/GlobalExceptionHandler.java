@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import java.time.Instant;
 import java.util.Date;
 
 @ControllerAdvice
@@ -33,6 +34,16 @@ public class GlobalExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+
+    //  Обработчик исключения отсутствия доступа пользователя к сущности
+    @ExceptionHandler(EntityAccessDeniedException.class)
+    public ResponseEntity<ErrorDetails> entityAccessDeniedException(EntityAccessDeniedException ex) {
+        return new ResponseEntity<>(new ErrorDetails( Date.from(Instant.now()), ex.getMessage(), "" ), HttpStatus.FORBIDDEN);
+    }
+
+
 
     @Data
     @AllArgsConstructor
