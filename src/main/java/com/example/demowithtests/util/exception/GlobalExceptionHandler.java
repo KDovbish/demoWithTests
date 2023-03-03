@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.Date;
 
@@ -36,11 +37,16 @@ public class GlobalExceptionHandler {
     }
 
 
+    //  Обработчик исключения, генерируемого при отсутствии сущности в базе
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorDetails> entityNotFoundException(EntityNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(new ErrorDetails( Date.from(Instant.now()), ex.getMessage(), request.getDescription(false) ), HttpStatus.NOT_FOUND);
+    }
 
-    //  Обработчик исключения отсутствия доступа пользователя к сущности
+    //  Обработчик исключения генерируемого при отсутствии доступа пользователя к сущности
     @ExceptionHandler(EntityAccessDeniedException.class)
-    public ResponseEntity<ErrorDetails> entityAccessDeniedException(EntityAccessDeniedException ex) {
-        return new ResponseEntity<>(new ErrorDetails( Date.from(Instant.now()), ex.getMessage(), "" ), HttpStatus.FORBIDDEN);
+    public ResponseEntity<ErrorDetails> entityAccessDeniedException(EntityAccessDeniedException ex, WebRequest request) {
+        return new ResponseEntity<>(new ErrorDetails( Date.from(Instant.now()), ex.getMessage(), request.getDescription(false) ), HttpStatus.FORBIDDEN);
     }
 
 

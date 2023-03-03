@@ -102,13 +102,17 @@ public class EmployeeServiceBean implements EmployeeService {
 
     @Override
     public void removeById(Integer id) {
-        //repository.deleteById(id);
-        Employee employee = employeeRepository.findById(id)
-                // .orElseThrow(() -> new EntityNotFoundException("Employee not found with id = " + id));
-                .orElseThrow(ResourceWasDeletedException::new);
-        //employee.setIsDeleted(true);
-        employeeRepository.delete(employee);
-        //repository.save(employee);
+        Employee employee = employeeRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        if (isCurrentUserAccess(employee)) {
+            if (employee.getVisible() == false) {
+                throw new EntityNotFoundException("Employee was alredy deleted with id = " + id);
+            } else {
+                employee.setVisible(Boolean.FALSE);
+                employeeRepository.save(employee);
+            }
+        } else {
+            throw new EntityAccessDeniedException();
+        }
     }
 
     @Override
