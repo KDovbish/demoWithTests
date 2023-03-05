@@ -193,4 +193,30 @@ public class Controller {
         return (Date.from(Instant.now()).getTime() - startTime.getTime());
     }
 
+    /**
+     * Массовое обновление всех сущностей Employee(метод PUT)
+     * @return время выполнения операции в милисекундах
+     */
+    @PutMapping("/users/updateall")
+    @ResponseStatus(HttpStatus.OK)
+    public long updateAllEmployeesByPUT() {
+        Date startTime = Date.from(Instant.now());
+        employeeService.updateAll();
+        return (Date.from(Instant.now()).getTime() - startTime.getTime());
+    }
+
+    /**
+     * Массовое обновление всех сущностей Employee(метод PATCH)
+     * @return время выполнения операции в милисекундах
+     */
+    @PatchMapping("/users/updateall")
+    @ResponseStatus(HttpStatus.OK)
+    public long updateAllEmployeesByPATCH() {
+        Date startTime = Date.from(Instant.now());
+        employeeService.updateAll();
+        return (Date.from(Instant.now()).getTime() - startTime.getTime());
+    }
+
+
+
 }

@@ -83,4 +83,9 @@ public interface EmployeeService {
      */
     void generate(Integer quantity, boolean clear);
 
+    /**
+     * Обновить все сущности Employee
+     */
+    void updateAll();
+
 }

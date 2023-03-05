@@ -242,4 +242,12 @@ public class EmployeeServiceBean implements EmployeeService {
         }
     }
 
+    //  Обновить все сущности Employee
+    @Override
+    public void updateAll() {
+        List<Employee> employeeList = employeeRepository.findAll();
+        employeeList.forEach(e -> e.setName(e.getName() + " CHANGED"));
+        employeeRepository.saveAll(employeeList);
+    }
+
 }
