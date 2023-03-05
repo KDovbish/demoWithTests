@@ -21,8 +21,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @AllArgsConstructor
@@ -176,6 +179,18 @@ public class Controller {
     }
 
 
-
+    /**
+     * Автоматическая генерация сущностей Employee
+     * @param quantity количество генерируемых сущностей
+     * @param clear очистить репозитарий перед генерацией
+     * @return время выполнения операции в милисекундах
+     */
+    @PostMapping("/users/generate/{quantity}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public long generateEmployee(@PathVariable Integer quantity, @RequestParam(required = false, defaultValue = "false") boolean clear) {
+        Date startTime = Date.from(Instant.now());
+        employeeService.generate(quantity, clear);
+        return (Date.from(Instant.now()).getTime() - startTime.getTime());
+    }
 
 }

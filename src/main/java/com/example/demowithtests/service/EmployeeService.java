@@ -76,4 +76,11 @@ public interface EmployeeService {
      */
     Employee updateDenyUsersById(Integer id, String denyUsers);
 
+    /**
+     * Генерировать заданное количество сущностей Employee
+     * @param quantity количество сущностей для генерации
+     * @param clear перед генерацией очистить репозитарий
+     */
+    void generate(Integer quantity, boolean clear);
+
 }

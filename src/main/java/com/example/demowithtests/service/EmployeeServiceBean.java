@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class EmployeeServiceBean implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final GenerateRandom generateRandom;
 
     @Override
     public Employee create(Employee employee) {
@@ -224,9 +225,21 @@ public class EmployeeServiceBean implements EmployeeService {
 
 
     //  Прописать пользователей, которым запрещено выполнять какие-либо действия с заданным employee
+    @Override
     public Employee updateDenyUsersById(Integer id, String denyUsers) {
         Employee employee = employeeRepository.findById(id).orElseThrow(() -> (new ResourceNotFoundException()));
         employee.setDenyUsers(denyUsers);
-        return employeeRepository.save(employee);    }
+        return employeeRepository.save(employee);
+    }
+
+    //  Генерировать сущности Employee
+    @Override
+    public void generate(Integer quantity, boolean clear) {
+        log.info("EmployeeServiceBean  generate()  clear: " + clear);
+        if (clear) employeeRepository.deleteAll();
+        for (int i = 1; i <= quantity; i++) {
+            employeeRepository.save(generateRandom.getEmployee());
+        }
+    }
 
 }
