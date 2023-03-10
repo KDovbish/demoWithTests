@@ -108,9 +108,10 @@ public class Controller {
     //Обновление юзера
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Employee refreshEmployee(@PathVariable("id") Integer id, @RequestBody Employee employee) {
-
-        return employeeService.updateById(id, employee);
+    public EmployeeDto refreshEmployee(@PathVariable("id") Integer id, @RequestBody EmployeeDto employeeDto) {
+        return employeeMapStructMapper.employeeToEmployeeDto(
+                    employeeService.updateById(id, employeeMapStructMapper.employeeDtoToEmployee(employeeDto))
+                    );
     }
 
     //Удаление по id
