@@ -75,11 +75,12 @@ public class Controller {
 
     @GetMapping("/users/p")
     @ResponseStatus(HttpStatus.OK)
-    public Page<Employee> getPage(@RequestParam(defaultValue = "0") int page,
+    public Page<EmployeeReadDto> getPage(@RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "5") int size
     ) {
         Pageable paging = PageRequest.of(page, size);
-        return employeeService.getAllWithPagination(paging);
+        return employeeService.getAllWithPagination(paging)
+                .map(e -> employeeMapStructMapper.employeeToEmployeeReadDto(e));
     }
 
     //Получения юзера по id
