@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -66,8 +67,10 @@ public class Controller {
     //Получение списка юзеров
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> getAllUsers() {
-        return employeeService.getAll();
+    public List<EmployeeReadDto> getAllUsers() {
+        return employeeService.getAll().stream()
+                .map(e -> employeeMapStructMapper.employeeToEmployeeReadDto(e))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/users/p")
