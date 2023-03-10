@@ -184,8 +184,10 @@ public class Controller {
      */
     @GetMapping("/users/citygender")
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> findByCityGender(@RequestParam Gender gender, @RequestParam String city) {
-        return employeeService.getCityGender(gender, city);
+    public List<EmployeeDto> findByCityGender(@RequestParam Gender gender, @RequestParam String city) {
+        return employeeService.getCityGender(gender, city).stream()
+                .map(e -> employeeMapStructMapper.employeeToEmployeeDto(e))
+                .collect(Collectors.toList());
     }
 
 
