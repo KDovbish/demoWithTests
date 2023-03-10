@@ -110,7 +110,9 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/dev.akkinoc.spring.boot/orika-spring-boot-starter -->
+<!--
         <dependency>
             <groupId>dev.akkinoc.spring.boot</groupId>
             <artifactId>orika-spring-boot-starter</artifactId>
@@ -122,6 +124,8 @@
             <version>1.5.4</version>
             <scope>compile</scope>
         </dependency>
+-->
+
         <!-- swagger -->
         <dependency>
             <groupId>org.springdoc</groupId>

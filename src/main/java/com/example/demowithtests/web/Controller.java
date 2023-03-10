@@ -5,7 +5,7 @@ import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.dto.EmployeeDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.service.EmployeeService;
-import com.example.demowithtests.util.config.EmployeeConverter;
+//import com.example.demowithtests.util.config.EmployeeConverter;
 import com.example.demowithtests.util.config.EmployeeMapStructMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class Controller {
 
     private final EmployeeService employeeService;
-    private final EmployeeConverter converter;
+    //private final EmployeeConverter converter;
     private final EmployeeMapStructMapper employeeMapStructMapper;
 
     //Операция сохранения юзера в базу данных
