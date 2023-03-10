@@ -170,8 +170,10 @@ public class Controller {
      */
     @GetMapping("/users/domain")
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> findByDomain(@RequestParam String domain, @RequestParam(required = false) String city) {
-        return employeeService.getByDomain(domain, city);
+    public List<EmployeeDto> findByDomain(@RequestParam String domain, @RequestParam(required = false) String city) {
+        return employeeService.getByDomain(domain, city).stream()
+                .map(e -> employeeMapStructMapper.employeeToEmployeeDto(e))
+                .collect(Collectors.toList());
     }
 
     /**
