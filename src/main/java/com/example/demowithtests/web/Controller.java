@@ -6,6 +6,7 @@ import com.example.demowithtests.dto.EmployeeDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.service.EmployeeService;
 import com.example.demowithtests.util.config.EmployeeConverter;
+import com.example.demowithtests.util.config.EmployeeMapStructMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,6 +37,7 @@ public class Controller {
 
     private final EmployeeService employeeService;
     private final EmployeeConverter converter;
+    private final EmployeeMapStructMapper employeeMapStructMapper;
 
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
@@ -48,8 +50,15 @@ public class Controller {
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
     public EmployeeDto saveEmployee(@RequestBody @Valid EmployeeDto requestForSave) {
 
-        var employee = converter.getMapperFacade().map(requestForSave, Employee.class);
-        var dto = converter.toDto(employeeService.create(employee));
+        //var employee = converter.getMapperFacade().map(requestForSave, Employee.class);
+        //  Замена функионала Orika на MapStruct
+        //  EmployeeDto -> Employee
+        var employee = employeeMapStructMapper.employeeDtoToEmployee(requestForSave);
+
+        //var dto = converter.toDto();
+        //  Замена функионала Orika на MapStruct
+        //  Employee -> EmployeeDto
+        var dto = employeeMapStructMapper.employeeToEmployeeDto(employeeService.create(employee));
 
         return dto;
     }
@@ -83,7 +92,12 @@ public class Controller {
         log.debug("getEmployeeById() Controller - start: id = {}", id);
         var employee = employeeService.getById(id);
         log.debug("getById() Controller - to dto start: id = {}", id);
-        var dto = converter.toReadDto(employee);
+
+        //var dto = converter.toReadDto(employee);
+        //  Замена функионала Orika на MapStruct
+        //  Employee -> EmployeeReadDto
+        var dto = employeeMapStructMapper.employeeToEmployeeReadDto(employee);
+
         log.debug("getEmployeeById() Controller - end: name = {}", dto.name);
         return dto;
     }
