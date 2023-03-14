@@ -2,6 +2,7 @@ package com.example.demowithtests.dto;
 
 import com.example.demowithtests.domain.Address;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.validation.CountryCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.Email;
@@ -19,6 +20,7 @@ public class EmployeeDto {
     @Schema(description = "Name of an employee.", example = "Billy", required = true)
     public String name;
 
+    @CountryCode(message = "Country code requires A2 type format")
     @Schema(description = "Name of the country.", example = "England", required = true)
     public String country;
 
