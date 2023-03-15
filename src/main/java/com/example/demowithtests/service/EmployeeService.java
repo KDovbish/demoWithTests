@@ -89,4 +89,6 @@ public interface EmployeeService {
      */
     void updateAll();
 
+    List<Employee> findExpiredPhotos();
+
 }

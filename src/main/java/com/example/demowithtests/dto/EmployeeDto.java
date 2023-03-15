@@ -4,6 +4,7 @@ import com.example.demowithtests.domain.Address;
 import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.validation.CountryCode;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+@ToString
 public class EmployeeDto {
 
     public Integer id;
@@ -32,4 +34,8 @@ public class EmployeeDto {
     public Set<AddressDto> addresses = new HashSet<>();
 
     public Gender gender;
+
+    public Set<PhotoDto> photos = new HashSet<>();
+
+
 }

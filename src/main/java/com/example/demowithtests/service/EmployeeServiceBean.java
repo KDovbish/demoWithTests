@@ -2,6 +2,7 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.repository.EmployeeRepository;
 import com.example.demowithtests.util.exception.EntityAccessDeniedException;
 import com.example.demowithtests.util.exception.ResourceNotFoundException;
@@ -18,6 +19,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -251,6 +254,29 @@ public class EmployeeServiceBean implements EmployeeService {
         List<Employee> employeeList = employeeRepository.findAll();
         employeeList.forEach(e -> e.setName(e.getName() + " CHANGED"));
         employeeRepository.saveAll(employeeList);
+    }
+
+
+    public List<Employee> findExpiredPhotos() {
+
+        List<Employee> employeeList = employeeRepository.findAll();
+        for(Employee employee: employeeList) {
+            for (Photo photo: employee.getPhotos()) {
+
+                if (Date.from(Instant.now()).after(photo.getAddDate()) > )
+                    LocalDateTime.of()
+
+                LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+                LocalDate today = LocalDate.now();
+                return date.isAfter(today.minusYears(5));
+
+
+            }
+        }
+
+
+
+        return null;
     }
 
 }

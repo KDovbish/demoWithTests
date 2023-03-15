@@ -29,6 +29,7 @@ public class Employee {
     private String country;
 
     private String email;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Set<Address> addresses = new HashSet<>();
@@ -38,6 +39,10 @@ public class Employee {
 
     private Boolean isVisible = Boolean.TRUE;
     private String denyUsers;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id")
+    private Set<Photo> photos = new HashSet<>();
 
 
     public Integer getId() {
@@ -94,4 +99,12 @@ public class Employee {
 
     public String getDenyUsers() { return denyUsers; }
     public void setDenyUsers(String denyUsers) { this.denyUsers = denyUsers; }
+
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<Photo> photos) {
+        this.photos = photos;
+    }
 }
