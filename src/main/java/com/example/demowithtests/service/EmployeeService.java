@@ -5,12 +5,13 @@ import com.example.demowithtests.domain.Gender;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
 
-    Employee create(Employee employee);
+    Employee create(@Valid Employee employee);
 
     List<Employee> getAll();
 

@@ -14,11 +14,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Validated
 @AllArgsConstructor
 @Slf4j
 @Service
@@ -28,7 +31,7 @@ public class EmployeeServiceBean implements EmployeeService {
     private final GenerateRandom generateRandom;
 
     @Override
-    public Employee create(Employee employee) {
+    public Employee create(@Valid Employee employee) {
         return employeeRepository.save(employee);
     }
 
