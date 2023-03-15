@@ -1,5 +1,7 @@
 package com.example.demowithtests.domain;
 
+import com.example.demowithtests.validation.UpperCase;
+import com.example.demowithtests.validation.ValidateEmployeeClass;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -15,13 +17,17 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @ToString
+@ValidateEmployeeClass
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    @UpperCase
     private String country;
+
     private String email;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
