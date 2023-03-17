@@ -37,5 +37,4 @@ public class EmployeeDto {
 
     public Set<PhotoDto> photos = new HashSet<>();
 
-
 }
