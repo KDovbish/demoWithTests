@@ -89,6 +89,12 @@ public interface EmployeeService {
      */
     void updateAll();
 
-    List<Employee> findExpiredPhotos();
+    /**
+     * Получить список сотрудников, у которых либо просрочена либо в скором времени(параметр метода warnTreshold) будет просрочена фотография
+     * @param storageDuration Допустимый срок хранения фотографии в годах
+     * @param warnTreshold За сколько дней до окончания строка хранения фотографии делать предупреждение пользователю
+     * @return
+     */
+    List<Employee> findExpiredPhotos(Integer storageDuration, Integer warnTreshold);
 
 }

@@ -257,26 +257,59 @@ public class EmployeeServiceBean implements EmployeeService {
     }
 
 
-    public List<Employee> findExpiredPhotos() {
+    //  Получить все объекты Employee, у которых просрочена фото
+    public List<Employee> findExpiredPhotos(Integer storageDuration, Integer warnTreshold) {
 
+        List<Employee> empoyeeWithExpiredPhoto = new ArrayList<>();
+
+        //  Получаем дату, которая является порогом для даты истечения срока хранения фото
+        //  Если дата порога еще не достигла дата истечения срока хранения фото, значит фотография еще действительна
+        //  Если дата порога достигла или превысила дату истечения срока хранения фото, то требуется уведомлять пользователя о необходимости смены фото
+        Calendar tresholdDate = DatePlusDays(Date.from(Instant.now()), warnTreshold);
+
+        //  Из базы выбираются все сотрудники
+        //  Производиться поиск сотрудников, с устаревшими фото
         List<Employee> employeeList = employeeRepository.findAll();
         for(Employee employee: employeeList) {
             for (Photo photo: employee.getPhotos()) {
-
-                if (Date.from(Instant.now()).after(photo.getAddDate()) > )
-                    LocalDateTime.of()
-
-                LocalDate date = LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
-                LocalDate today = LocalDate.now();
-                return date.isAfter(today.minusYears(5));
-
-
+                //  Если пороговая дата достикла или превысила конечную возможную дату хранения фото...
+                if ( tresholdDate.after( DatePlusYears(photo.getAddDate(), storageDuration )  ) ) {
+                    empoyeeWithExpiredPhoto.add(employee);
+                }
             }
         }
 
+        //  Удаление дублирующихся объектов типа Employee
+        //  Такая ситуация возможна, поскольку в классе Employee прописана связь один ко многим. Т.е. один сотрудник может иметь несколько фото
+        Set<Employee> employeeSet = new HashSet<>();
+        employeeSet.addAll(empoyeeWithExpiredPhoto);
+
+        return new ArrayList<Employee>(employeeSet);
+    }
 
 
-        return null;
+    /**
+     * К значению типа Date прибавить заданное количесто лет
+     * @param date Date-значение
+     * @param years Количество лет для прибавления
+     * @return Значение типа Calendar
+     */
+    private Calendar DatePlusYears(Date date, Integer years) {
+        Calendar calendar = new Calendar.Builder().setInstant(date).build();
+        calendar.add(Calendar.YEAR, years);
+        return calendar;
+    }
+
+    /**
+     * К значению типа Date прибавать заданное количество дней
+     * @param date Date-значение
+     * @param days Количетсво дней для прибавления
+     * @return Значение типа Calendar
+     */
+    private Calendar DatePlusDays(Date date, Integer days) {
+        Calendar calendar = new Calendar.Builder().setInstant(date).build();
+        calendar.add(Calendar.DAY_OF_MONTH, days);
+        return calendar;
     }
 
 }

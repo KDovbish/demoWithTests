@@ -237,5 +237,18 @@ public class Controller {
     }
 
 
+    /**
+     * Получить список сотрудников у которых просрочено фото
+     * @return Выбранный список сотрудников
+     */
+    @GetMapping("/users/photoexpiried")
+    @ResponseStatus(HttpStatus.OK)
+    public List<EmployeeDto> getEmployeesWithExpiriedPhoto() {
+        return employeeService.findExpiredPhotos(5, 7).stream()
+                .map(e -> employeeMapStructMapper.employeeToEmployeeDto(e))
+                .collect(Collectors.toList());
+    }
+
+
 
 }
