@@ -2,6 +2,7 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.dto.EmployeeCreateDto;
 import com.example.demowithtests.dto.EmployeeDto;
 import com.example.demowithtests.dto.EmployeeReadDto;
 import com.example.demowithtests.service.EmployeeService;
@@ -49,22 +50,10 @@ public class Controller {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public EmployeeDto saveEmployee(@RequestBody @Valid EmployeeDto requestForSave) {
+    public EmployeeDto saveEmployee(@RequestBody @Valid EmployeeCreateDto requestForSave) {
 
-        System.err.println("BEFORE: " + requestForSave);
-
-        //var employee = converter.getMapperFacade().map(requestForSave, Employee.class);
-        //  Замена функионала Orika на MapStruct
-        //  EmployeeDto -> Employee
-        var employee = employeeMapStructMapper.employeeDtoToEmployee(requestForSave);
-
-        System.err.println("AFTER: " + employee);
-
-        //var dto = converter.toDto();
-        //  Замена функионала Orika на MapStruct
-        //  Employee -> EmployeeDto
+        var employee = employeeMapStructMapper.employeeCreateDtoToEmployee(requestForSave);
         var dto = employeeMapStructMapper.employeeToEmployeeDto(employeeService.create(employee));
-
         return dto;
     }
 
