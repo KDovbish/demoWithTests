@@ -2,6 +2,7 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.EmployeeService;
 //import com.example.demowithtests.util.config.EmployeeConverter;
@@ -236,7 +237,7 @@ public class Controller {
 
 
     /**
-     * Получить список сотрудников у которых просрочено фото
+     * Получить список сотрудников у которых есть хотя бы одно просроченое фото
      * @return Выбранный список сотрудников
      */
     @GetMapping("/users/photoexpiried")
@@ -258,6 +259,20 @@ public class Controller {
     @ResponseStatus(HttpStatus.OK)
     public PhotoDto updatePhoto(@PathVariable Integer photoId, @RequestBody PhotoDto photoDto) {
         return employeeMapStructMapper.photoToPhotoDto( employeeService.updatePhoto(photoId, photoDto) );
+    }
+
+
+    /**
+     * Добавить еще одну новую сущность Фотография уже существующему сотруднику
+     * @param employeeId id Сотрудника
+     * @param photoCreateDto Описание новой добавляемой сущности Фотография
+     * @return Обновленная сущность Сотрудник
+     */
+    @PostMapping("/users/{employeeId}/photo")
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmployeeDto addPhoto(@PathVariable Integer employeeId, @RequestBody PhotoCreateDto photoCreateDto) {
+        Photo photo = employeeMapStructMapper.photoCreateDtoToPhoto(photoCreateDto);
+        return employeeMapStructMapper.employeeToEmployeeDto( employeeService.addNewEmployeePhoto(employeeId, photo) );
     }
 
 
