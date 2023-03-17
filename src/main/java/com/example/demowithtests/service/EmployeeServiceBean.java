@@ -3,7 +3,10 @@ package com.example.demowithtests.service;
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.domain.Photo;
+import com.example.demowithtests.dto.PhotoCreateDto;
+import com.example.demowithtests.dto.PhotoDto;
 import com.example.demowithtests.repository.EmployeeRepository;
+import com.example.demowithtests.repository.PhotoRepositary;
 import com.example.demowithtests.util.exception.EntityAccessDeniedException;
 import com.example.demowithtests.util.exception.ResourceNotFoundException;
 import com.example.demowithtests.util.exception.ResourceWasDeletedException;
@@ -32,6 +35,7 @@ public class EmployeeServiceBean implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final GenerateRandom generateRandom;
+    private final PhotoRepositary photoRepositary;
 
     @Override
     public Employee create(@Valid Employee employee) {
@@ -257,7 +261,9 @@ public class EmployeeServiceBean implements EmployeeService {
     }
 
 
+
     //  Получить все объекты Employee, у которых просрочена фото
+    @Override
     public List<Employee> findExpiredPhotos(Integer storageDuration, Integer warnTreshold) {
 
         List<Employee> empoyeeWithExpiredPhoto = new ArrayList<>();
@@ -310,6 +316,21 @@ public class EmployeeServiceBean implements EmployeeService {
         Calendar calendar = new Calendar.Builder().setInstant(date).build();
         calendar.add(Calendar.DAY_OF_MONTH, days);
         return calendar;
+    }
+
+
+    @Override
+    public Photo updatePhoto(Integer photoId, PhotoDto photoDto) {
+        Photo photo = photoRepositary.findById(photoId).orElseThrow( () -> new ResourceNotFoundException() );
+
+        if (photoDto.description != null) photo.setDescription(photoDto.description);
+        if (photoDto.cameraType != null) photo.setCameraType(photoDto.cameraType);
+        if (photoDto.photoUrl != null) {
+            photo.setPhotoUrl(photoDto.photoUrl);
+            photo.setAddDate(Date.from(Instant.now()));
+        }
+
+        return photoRepositary.save(photo);
     }
 
 }

@@ -2,9 +2,7 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
-import com.example.demowithtests.dto.EmployeeCreateDto;
-import com.example.demowithtests.dto.EmployeeDto;
-import com.example.demowithtests.dto.EmployeeReadDto;
+import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.EmployeeService;
 //import com.example.demowithtests.util.config.EmployeeConverter;
 import com.example.demowithtests.util.config.EmployeeMapStructMapper;
@@ -249,6 +247,18 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+
+    /**
+     * Обновление сущности Фотография
+     * @param photoId id сущности Фотография
+     * @param photoDto объект описывающий параметры которые могут быть изменены в сущности Фотография
+     * @return dto измененной сущности Фотография
+     */
+    @PatchMapping("/users/photo/{photoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public PhotoDto updatePhoto(@PathVariable Integer photoId, @RequestBody PhotoDto photoDto) {
+        return employeeMapStructMapper.photoToPhotoDto( employeeService.updatePhoto(photoId, photoDto) );
+    }
 
 
 }

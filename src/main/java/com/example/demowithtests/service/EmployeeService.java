@@ -2,6 +2,9 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.domain.Photo;
+import com.example.demowithtests.dto.PhotoCreateDto;
+import com.example.demowithtests.dto.PhotoDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -96,5 +99,14 @@ public interface EmployeeService {
      * @return
      */
     List<Employee> findExpiredPhotos(Integer storageDuration, Integer warnTreshold);
+
+    /**
+     * Обновить сущность Фотография
+     * @param photoId id сущности Фотография для обновления
+     * @param photoDto параметры, которые могут быть изменены в сущности Фотография
+     * @return измененная сущность Фотография
+     */
+    Photo updatePhoto(Integer photoId, PhotoDto photoDto);
+
 
 }
