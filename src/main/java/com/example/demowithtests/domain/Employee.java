@@ -37,7 +37,7 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Boolean isVisible = Boolean.TRUE;
+    private Boolean isVisible;
     private String denyUsers;
 
     @OneToMany(cascade = CascadeType.ALL)

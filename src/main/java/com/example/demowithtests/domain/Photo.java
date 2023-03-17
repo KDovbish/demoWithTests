@@ -19,7 +19,7 @@ public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date addDate = Date.from(Instant.now());
+    private Date addDate;
     private String description;
     private String cameraType;
     private String photoUrl;
