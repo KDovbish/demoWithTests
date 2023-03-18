@@ -319,6 +319,7 @@ public class EmployeeServiceBean implements EmployeeService {
     }
 
 
+    //  Обновить сущестующую фото
     @Override
     public Photo updatePhoto(Integer photoId, PhotoDto photoDto) {
         Photo photo = photoRepositary.findById(photoId).orElseThrow( () -> new ResourceNotFoundException() );
@@ -332,5 +333,14 @@ public class EmployeeServiceBean implements EmployeeService {
 
         return photoRepositary.save(photo);
     }
+
+    //  Добавить новое фото существующему сотруднику
+    @Override
+    public Employee addNewEmployeePhoto(Integer employeeId, Photo photo) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow( () -> new ResourceNotFoundException() );
+        employee.getPhotos().add(photo);
+        return employeeRepository.save(employee);
+    }
+
 
 }

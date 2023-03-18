@@ -108,5 +108,13 @@ public interface EmployeeService {
      */
     Photo updatePhoto(Integer photoId, PhotoDto photoDto);
 
+    /**
+     * Добавить новое фото существующего сотрудника
+     * @param employeeId id сущности Сотрудник
+     * @param photoCreateDto фотография для добавления
+     * @return измененная сущность Сотрудник
+     */
+    Employee addNewEmployeePhoto(Integer employeeId, Photo photo);
+
 
 }
