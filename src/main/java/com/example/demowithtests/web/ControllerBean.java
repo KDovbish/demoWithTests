@@ -46,14 +46,7 @@ public class ControllerBean implements Controller {
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "This is endpoint to add a new employee.", description = "Create request to add a new employee.", tags = {"Employee"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "CREATED. The new employee is successfully created and added to database."),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
-            @ApiResponse(responseCode = "409", description = "Employee already exists")})
     public EmployeeDto saveEmployee(@RequestBody @Valid EmployeeCreateDto requestForSave) {
-
         var employee = employeeMapStructMapper.employeeCreateDtoToEmployee(requestForSave);
         var dto = employeeMapStructMapper.employeeToEmployeeDto(employeeService.create(employee));
         return dto;
@@ -156,12 +149,6 @@ public class ControllerBean implements Controller {
     }
 
 
-    /**
-     * Отдать всех пользователей, использующих заданный почтовый домен
-     * @param domain почтовой домен
-     * @param city город; если указан, то отдаются почтовые домены в пределах заданного города
-     * @return список пользоваталей
-     */
     @GetMapping("/users/domain")
     @ResponseStatus(HttpStatus.OK)
     public List<EmployeeDto> findByDomain(@RequestParam String domain, @RequestParam(required = false) String city) {
@@ -170,12 +157,6 @@ public class ControllerBean implements Controller {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Отдать всех пользователей заданного пола в пределах заданного города
-     * @param gender пол
-     * @param city город
-     * @return список пользователей
-     */
     @GetMapping("/users/citygender")
     @ResponseStatus(HttpStatus.OK)
     public List<EmployeeDto> findByCityGender(@RequestParam Gender gender, @RequestParam String city) {
@@ -185,12 +166,6 @@ public class ControllerBean implements Controller {
     }
 
 
-    /**
-     * Прописать новое содержимое в столбец denyUsers - список пользователей, которым запрещено использование заданного employee
-     * @param id идентификатор обновляемого employee
-     * @param denyUsers список пользователей
-     * @return обновленный employee
-     */
     @PutMapping("/users/deny/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Employee updateDenyUsers(@PathVariable Integer id, @RequestParam("users") String denyUsers) {
@@ -198,12 +173,6 @@ public class ControllerBean implements Controller {
     }
 
 
-    /**
-     * Автоматическая генерация сущностей Employee
-     * @param quantity количество генерируемых сущностей
-     * @param clear очистить репозитарий перед генерацией
-     * @return время выполнения операции в милисекундах
-     */
     @PostMapping("/users/generate/{quantity}")
     @ResponseStatus(HttpStatus.CREATED)
     public long generateEmployee(@PathVariable Integer quantity, @RequestParam(required = false, defaultValue = "false") boolean clear) {
@@ -212,10 +181,6 @@ public class ControllerBean implements Controller {
         return (Date.from(Instant.now()).getTime() - startTime.getTime());
     }
 
-    /**
-     * Массовое обновление всех сущностей Employee(метод PUT)
-     * @return время выполнения операции в милисекундах
-     */
     @PutMapping("/users/updateall")
     @ResponseStatus(HttpStatus.OK)
     public long updateAllEmployeesByPUT() {
@@ -224,10 +189,6 @@ public class ControllerBean implements Controller {
         return (Date.from(Instant.now()).getTime() - startTime.getTime());
     }
 
-    /**
-     * Массовое обновление всех сущностей Employee(метод PATCH)
-     * @return время выполнения операции в милисекундах
-     */
     @PatchMapping("/users/updateall")
     @ResponseStatus(HttpStatus.OK)
     public long updateAllEmployeesByPATCH() {
@@ -237,10 +198,6 @@ public class ControllerBean implements Controller {
     }
 
 
-    /**
-     * Получить список сотрудников у которых есть хотя бы одно просроченое фото
-     * @return Выбранный список сотрудников
-     */
     @GetMapping("/users/photoexpiried")
     @ResponseStatus(HttpStatus.OK)
     public List<EmployeeDto> getEmployeesWithExpiriedPhoto() {
@@ -250,25 +207,12 @@ public class ControllerBean implements Controller {
     }
 
 
-    /**
-     * Обновление сущности Фотография
-     * @param photoId id сущности Фотография
-     * @param photoDto объект описывающий параметры которые могут быть изменены в сущности Фотография
-     * @return dto измененной сущности Фотография
-     */
     @PatchMapping("/users/photo/{photoId}")
     @ResponseStatus(HttpStatus.OK)
     public PhotoDto updatePhoto(@PathVariable Integer photoId, @RequestBody PhotoDto photoDto) {
         return employeeMapStructMapper.photoToPhotoDto( employeeService.updatePhoto(photoId, photoDto) );
     }
 
-
-    /**
-     * Добавить еще одну новую сущность Фотография уже существующему сотруднику
-     * @param employeeId id Сотрудника
-     * @param photoCreateDto Описание новой добавляемой сущности Фотография
-     * @return Обновленная сущность Сотрудник
-     */
     @PostMapping("/users/{employeeId}/photo")
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeDto addPhoto(@PathVariable Integer employeeId, @RequestBody PhotoCreateDto photoCreateDto) {
@@ -276,24 +220,17 @@ public class ControllerBean implements Controller {
         return employeeMapStructMapper.employeeToEmployeeDto( employeeService.addNewEmployeePhoto(employeeId, photo) );
     }
 
-    /**
-     * Загрузка файла фотографии в уже существующую сущность Фотография
-     * @param photoId Идентификатор Фотографии
-     * @param multipartFile Часть составного содержимого http-запроса с jpeg-файлом
-     * @throws IOException
-     */
+
+    //  Загрузка файла фотографии
     @PostMapping("/users/photo/{photoId}")
     @ResponseStatus(HttpStatus.OK)
     public void uploadPhoto(@PathVariable Integer photoId, @ImageRestrictions @RequestPart(name = "image") MultipartFile multipartFile) throws IOException {
             employeeService.addPhotoImage(photoId, multipartFile.getBytes());
     }
 
-    /**
-     * Получить файл фотографии
-     * @param photoId Идентификатор сущности Фотография
-     * @return массив байтов, составляющих файл фотографии
-     */
+    //  Получить файл фотографии
     @GetMapping(value = "/users/photo/{photoId}" , produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseStatus(HttpStatus.OK)
     public byte[] getPhotoImage(@PathVariable Integer photoId) {
         return employeeService.getPhotoImage(photoId);
     }
