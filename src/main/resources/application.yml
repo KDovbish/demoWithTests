@@ -20,6 +20,9 @@ spring:
     enabled: true
     #    clean-disabled: true
     baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 100KB
 #  security:
 #    user:
 #      name: admin
