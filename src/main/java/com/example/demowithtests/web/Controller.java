@@ -5,8 +5,8 @@ import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.EmployeeService;
-//import com.example.demowithtests.util.config.EmployeeConverter;
 import com.example.demowithtests.util.config.EmployeeMapStructMapper;
+import com.example.demowithtests.validation.ImageRestrictions;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,18 +19,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
+@Validated
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @Tag(name = "Employee", description = "Employee API")
@@ -274,6 +277,28 @@ public class Controller {
         Photo photo = employeeMapStructMapper.photoCreateDtoToPhoto(photoCreateDto);
         return employeeMapStructMapper.employeeToEmployeeDto( employeeService.addNewEmployeePhoto(employeeId, photo) );
     }
+
+    /**
+     * Загрузка файла фотографии в уже существующую сущность Фотография
+     * @param photoId Идентификатор Фотографии
+     * @param multipartFile Часть составного содержимого http-запроса с jpeg-файлом
+     * @throws IOException
+     */
+    @PostMapping("/users/photo/{photoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadPhoto(@PathVariable Integer photoId,
+                                @ImageRestrictions(maxheight = 499, maxwidth = 500, message = "Image parameters do not meet business requirements")
+                                @RequestPart(name = "image") MultipartFile multipartFile) {
+
+        try {
+            employeeService.addPhotoImage(photoId, multipartFile.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 
 
 }
