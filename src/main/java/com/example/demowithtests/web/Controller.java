@@ -298,7 +298,14 @@ public class Controller {
 
     }
 
-
-
+    /**
+     * Получить файл фотографии
+     * @param photoId Идентификатор сущности Фотография
+     * @return массив байтов, составляющих файл фотографии
+     */
+    @GetMapping(value = "/users/photo/{photoId}" , produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getPhotoImage(@PathVariable Integer photoId) {
+        return employeeService.getPhotoImage(photoId);
+    }
 
 }
