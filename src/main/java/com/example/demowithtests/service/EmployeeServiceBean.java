@@ -342,5 +342,20 @@ public class EmployeeServiceBean implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    //  Загрузить файл фотографии
+    @Override
+    public void addPhotoImage(Integer photoId, byte[] image){
+        Photo photo = photoRepositary.findById(photoId).orElseThrow( () -> new ResourceNotFoundException() );
+        photo.setImage(image);
+        photoRepositary.save(photo);
+    }
+
+    //  Получить файл фотографии
+    @Override
+    public byte[] getPhotoImage(Integer photoId) {
+        Photo photo = photoRepositary.findById(photoId).orElseThrow( () -> new ResourceNotFoundException() );
+        return photo.getImage();
+    }
+
 
 }

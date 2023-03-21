@@ -111,10 +111,26 @@ public interface EmployeeService {
     /**
      * Добавить новое фото существующего сотрудника
      * @param employeeId id сущности Сотрудник
-     * @param photoCreateDto фотография для добавления
+     * @param photo фотография для добавления
      * @return измененная сущность Сотрудник
      */
     Employee addNewEmployeePhoto(Integer employeeId, Photo photo);
+
+    /**
+     * Добавить jpeg-файл фотографии для сотрудника
+     * @param photoId идентификатор сущности Фотография, в который нужно залить изображение
+     * @param image массив байтов, составляющий jpeg-файл
+     */
+    void addPhotoImage(Integer photoId, byte[] image);
+
+    /**
+     * Получть из сущности Фотография массив байтов представляющих собой jpeg-файл
+     * @param photoId идентификатор сущности Фотография
+     * @return массив байтов, представляющих jpeg-файл
+     */
+    byte[] getPhotoImage(Integer photoId);
+
+
 
 
 }
