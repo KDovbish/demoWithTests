@@ -23,4 +23,5 @@ public class Photo {
     private String description;
     private String cameraType;
     private String photoUrl;
+    private byte[] image;
 }
