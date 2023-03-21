@@ -14,9 +14,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ImageRestrictionsValidator.class)
 public @interface ImageRestrictions {
-    String message() default "{ImageRestrictions.message}";
+    String message() default "Image parameters do not meet business requirements";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-    int maxwidth();         //  обязательный параметр: максимально допустимая ширина изображения
-    int maxheight();        //  обязательный параметр: максимально допустимая высота изображения
+    int maxwidth() default 499;         //  обязательный параметр: максимально допустимая ширина изображения
+    int maxheight() default 499;        //  обязательный параметр: максимально допустимая высота изображения
 }
