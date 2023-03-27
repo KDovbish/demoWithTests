@@ -2,10 +2,7 @@ package com.example.demowithtests.domain;
 
 import com.example.demowithtests.validation.UpperCase;
 import com.example.demowithtests.validation.ValidateEmployeeClass;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,8 +10,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
 @Builder
 @ToString
 @ValidateEmployeeClass
@@ -37,14 +36,20 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Boolean isVisible;
+    private Boolean visible;
     private String denyUsers;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Set<Photo> photos = new HashSet<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "passport_id", referencedColumnName = "id")
+    private Passport passport;
 
+
+
+/*
     public Integer getId() {
         return id;
     }
@@ -107,4 +112,5 @@ public class Employee {
     public void setPhotos(Set<Photo> photos) {
         this.photos = photos;
     }
+*/
 }

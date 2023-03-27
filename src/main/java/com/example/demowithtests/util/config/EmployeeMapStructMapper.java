@@ -12,7 +12,7 @@ import org.mapstruct.Mapping;
 public interface EmployeeMapStructMapper {
 
     //  Логика создания сущностей из DTO для сохранения в БД
-    @Mapping(target = "isVisible", constant = "true")
+    @Mapping(target = "visible", constant = "true")
     Employee employeeCreateDtoToEmployee(EmployeeCreateDto employeeCreateDto); // исходное свойство в dto отсутствует; целевое прописывается в любом случае
 
     @Mapping(target = "addDate", expression = "java( java.util.Date.from(java.time.Instant.now()) )")   // исходное свойство в dto отсутствует; целевое прописывается в любом случае
