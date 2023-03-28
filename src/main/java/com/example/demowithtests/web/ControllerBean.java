@@ -55,9 +55,9 @@ public class ControllerBean implements Controller {
     //Получение списка юзеров
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    public List<EmployeeReadDto> getAllUsers() {
+    public List<EmployeeResponseDto> getAllUsers() {
         return employeeService.getAll().stream()
-                .map(e -> employeeMapStructMapper.employeeToEmployeeReadDto(e))
+                .map(e -> employeeMapStructMapper.employeeToEmployeeResponseDto(e))
                 .collect(Collectors.toList());
     }
 
@@ -78,7 +78,7 @@ public class ControllerBean implements Controller {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND. Specified employee request not found."),
             @ApiResponse(responseCode = "409", description = "Employee already exists")})
-    public EmployeeReadDto getEmployeeById(@PathVariable Integer id) {
+    public EmployeeResponseDto getEmployeeById(@PathVariable Integer id) {
         log.debug("getEmployeeById() Controller - start: id = {}", id);
         var employee = employeeService.getById(id);
         log.debug("getById() Controller - to dto start: id = {}", id);
@@ -86,7 +86,7 @@ public class ControllerBean implements Controller {
         //var dto = converter.toReadDto(employee);
         //  Замена функионала Orika на MapStruct
         //  Employee -> EmployeeReadDto
-        var dto = employeeMapStructMapper.employeeToEmployeeReadDto(employee);
+        var dto = employeeMapStructMapper.employeeToEmployeeResponseDto(employee);
 
         log.debug("getEmployeeById() Controller - end: name = {}", dto.name);
         return dto;
@@ -235,4 +235,16 @@ public class ControllerBean implements Controller {
         return employeeService.getPhotoImage(photoId);
     }
 
+    //  Связать Сотрудника и Паспорт
+    @Override
+    @PatchMapping("/users/{employeeId}/passports/{passportId}")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponseDto addPassport(@PathVariable Integer employeeId, @PathVariable Integer passportId) {
+        return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.addPassportToEmployee(employeeId, passportId) );
+    }
+
+    @Override
+    public EmployeeResponseDto addPassport(Integer employeeId, PassportRequestDto pasportRequestDto) {
+        return null;
+    }
 }

@@ -29,9 +29,9 @@ public interface Controller {
             @ApiResponse(responseCode = "406", description = "NOT ACCEPTABLE. Validation failed")})
     EmployeeDto saveEmployee(@Valid EmployeeCreateDto requestForSave);
 
-    List<EmployeeReadDto> getAllUsers();
+    List<EmployeeResponseDto> getAllUsers();
     Page<EmployeeReadDto> getPage(int page, int size);
-    EmployeeReadDto getEmployeeById(Integer id);
+    EmployeeResponseDto getEmployeeById(Integer id);
     EmployeeDto refreshEmployee(Integer id, EmployeeDto employeeDto);
     void removeEmployeeById(Integer id);
     void removeAllUsers();
@@ -160,7 +160,22 @@ public interface Controller {
     })
     byte[] getPhotoImage(Integer photoId);
 
+    /**
+     * Добавить в сущность Сотрудника связь на Паспорт
+     * @param employeeId Идентификатор уже существующего Сотрудника в бд
+     * @param passportId Идентификатор уже существующего Паспорта в бд
+     * @return DTO обновленной сущности Сотрудник
+     */
+    EmployeeResponseDto addPassport(Integer employeeId, Integer passportId);
 
+    /**
+     * Добавить в сущность Сотрудника связь на Паспорт.
+     * Метод самостоятельно находит свободный паспорт и заполняет его в соответствии с параметрыми, переданными фронтом.
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param pasportRequestDto Параметры Паспорта, которые заполняются на фронте
+     * @return DTO обновленной сущности Сотрудник
+     */
+    EmployeeResponseDto addPassport(Integer employeeId, PassportRequestDto pasportRequestDto);
 
 
 }

@@ -42,7 +42,7 @@ public class PassportServiceBean implements PassportService {
     //  Получить сущность Паспорт по идентификатору в бд
     @Override
     public Passport getById(Integer id) {
-        return passportRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        return passportRepository.findById(id).orElseThrow(() -> (new ResourceNotFoundException("Passport entity not found")));
     }
 
     //  Обновить сущность Паспорт

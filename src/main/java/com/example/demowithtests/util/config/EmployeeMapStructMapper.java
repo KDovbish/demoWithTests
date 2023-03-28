@@ -27,6 +27,7 @@ public interface EmployeeMapStructMapper {
     EmployeeDto employeeToEmployeeDto(Employee employee);
     EmployeeReadDto employeeToEmployeeReadDto(Employee employee);
     PhotoDto photoToPhotoDto(Photo photo);
+    EmployeeResponseDto employeeToEmployeeResponseDto(Employee employee);
 
 
 }

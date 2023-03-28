@@ -2,6 +2,7 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.domain.Passport;
 import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.dto.PhotoCreateDto;
 import com.example.demowithtests.dto.PhotoDto;
@@ -36,6 +37,7 @@ public class EmployeeServiceBean implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final GenerateRandom generateRandom;
     private final PhotoRepositary photoRepositary;
+    private final PassportService passportService;
 
     @Override
     public Employee create(@Valid Employee employee) {
@@ -357,5 +359,12 @@ public class EmployeeServiceBean implements EmployeeService {
         return photo.getImage();
     }
 
-
+    //  Связать существующую сущность Сотрудник с существующей сущностью Паспорт
+    @Override
+    public Employee addPassportToEmployee(Integer employeeId, Integer passportId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
+        Passport passport = passportService.getById(passportId);
+        employee.setPassport(passport);
+        return employeeRepository.save(employee);
+    }
 }

@@ -130,6 +130,17 @@ public interface EmployeeService {
      */
     byte[] getPhotoImage(Integer photoId);
 
+    /**
+     * Добавить в существующую сущность Сотрудник связь на существующую сущность Паспорт
+     * @param employeeId Идентификатор сущности Сотрудник в бд
+     * @param passportId Идентификатор сущности Паспорт в бд
+     * @return Обновленная сущность Сотрудник
+     */
+    Employee addPassportToEmployee(Integer employeeId, Integer passportId);
+
+
+
+
 
 
 
