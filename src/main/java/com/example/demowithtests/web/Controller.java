@@ -159,4 +159,8 @@ public interface Controller {
             @ApiResponse(responseCode = "404", description = "Идентификатор сущности Фотография не найден")
     })
     byte[] getPhotoImage(Integer photoId);
+
+
+
+
 }

@@ -2,6 +2,7 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Passport;
 import com.example.demowithtests.repository.PassportRepository;
+import com.example.demowithtests.util.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,27 @@ public class PassportServiceBean implements PassportService {
                 .collect(Collectors.toList());
     }
 
+    //  Получить сущность Паспорт по идентификатору в бд
+    @Override
+    public Passport getById(Integer id) {
+        return passportRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+    }
+
+    //  Обновить сущность Паспорт
+    @Override
+    public Passport updateById(Integer id, Passport updatePassportParam) {
+        Passport passport = passportRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+
+        passport.setFirstName(updatePassportParam.getFirstName());
+        passport.setSecondName(updatePassportParam.getSecondName());
+        passport.setDateOfBirthday(updatePassportParam.getDateOfBirthday());
+        passport.setExpireDate(updatePassportParam.getExpireDate());
+
+        return passportRepository.save(passport);
+    }
+
     //  Генерация серийного номера для нового паспорта
     private String generateSerialNumber() {
         return UUID.randomUUID().toString();
     }
-
 }

@@ -1,5 +1,7 @@
 package com.example.demowithtests.web;
 
+import com.example.demowithtests.domain.Passport;
+import com.example.demowithtests.dto.PassportRequestDto;
 import com.example.demowithtests.dto.PassportResponseDto;
 import com.example.demowithtests.service.PassportService;
 import com.example.demowithtests.util.config.PassportMapper;
@@ -19,6 +21,7 @@ public class PassportControllerBean implements PassportController {
     private final PassportService passportService;
     private final PassportMapper passportMapper;
 
+    //  Создать заданное количество сущностей Паспорт в бд
     @Override
     @PostMapping("/passports/{n}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,6 +29,7 @@ public class PassportControllerBean implements PassportController {
         passportService.generate(n);
     }
 
+    //  Получить все свободные Паспорта, которые можно привязывать к Сотрудникам
     @Override
     @GetMapping("/passports/free")
     @ResponseStatus(HttpStatus.OK)
@@ -33,5 +37,22 @@ public class PassportControllerBean implements PassportController {
         return passportService.getAllFree().stream()
                 .map(e -> (passportMapper.passportToPassportResponseDto(e)))
                 .collect(Collectors.toList());
+    }
+
+    //  Получить Паспорт по идентификатору в бд
+    @Override
+    @GetMapping("/passports/{passportId}")
+    @ResponseStatus(HttpStatus.OK)
+    public PassportResponseDto getPassportById(@PathVariable Integer passportId) {
+        return passportMapper.passportToPassportResponseDto(passportService.getById(passportId));
+    }
+
+    //  Изменить заданную сущность Паспорт
+    @Override
+    @PutMapping("/passports/{passportId}")
+    @ResponseStatus(HttpStatus.OK)
+    public PassportResponseDto update(@PathVariable Integer passportId, @RequestBody PassportRequestDto passportRequestDto) {
+        Passport passport = passportService.updateById(passportId, passportMapper.passportRequestDtoToPassport(passportRequestDto));
+        return passportMapper.passportToPassportResponseDto(passport);
     }
 }
