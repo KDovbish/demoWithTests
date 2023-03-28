@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +28,14 @@ public class PassportServiceBean implements PassportService {
             }
             passportRepository.saveAll(passportList);
         }
+    }
+
+    //  Получить все свободные сущности Паспорт
+    @Override
+    public List<Passport> getAllFree() {
+        return passportRepository.findAll().stream()
+                .filter(e -> (e.getEmployee() == null))
+                .collect(Collectors.toList());
     }
 
     //  Генерация серийного номера для нового паспорта
