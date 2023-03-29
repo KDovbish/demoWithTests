@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Employee", description = "Employee API")
 public interface Controller {
 
     @Operation(summary = "This is endpoint to add a new employee.", description = "Create request to add a new employee.", tags = {"Employee"})
@@ -166,6 +168,7 @@ public interface Controller {
      * @param passportId Идентификатор уже существующего Паспорта в бд
      * @return DTO обновленной сущности Сотрудник
      */
+    @Operation(summary = "Добавить паспорт", description = "Создать связь между существующими сущностями: Сотрудник -> Паспорт", tags = {"Employee"})
     EmployeeResponseDto addPassport(Integer employeeId, Integer passportId);
 
     /**
@@ -175,7 +178,11 @@ public interface Controller {
      * @param pasportRequestDto Параметры Паспорта, которые заполняются на фронте
      * @return DTO обновленной сущности Сотрудник
      */
+    @Operation(summary = "Добавить паспорт", description = "Для существующей сущности Сотрудник ищется свободный Паспорт и наполняется заданными значениями", tags = {"Employee"})
+    @Parameters(value = {
+            @Parameter(name = "employeeId", description = "Идентификатор Сотрудника в бд"),
+            @Parameter(name = "pasportRequestDto", description = "Поля для заполнения нового Паспорта")
+    })
     EmployeeResponseDto addPassport(Integer employeeId, PassportRequestDto pasportRequestDto);
-
 
 }

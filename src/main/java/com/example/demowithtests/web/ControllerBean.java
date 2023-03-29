@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
 @Validated
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-@Tag(name = "Employee", description = "Employee API")
 public class ControllerBean implements Controller {
 
     private final EmployeeService employeeService;
