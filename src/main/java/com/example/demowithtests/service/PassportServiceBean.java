@@ -35,6 +35,7 @@ public class PassportServiceBean implements PassportService {
     @Override
     public List<Passport> getAllFree() {
         return passportRepository.findAll().stream()
+                .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
                 .filter(e -> (e.getEmployee() == null))
                 .collect(Collectors.toList());
     }
@@ -43,6 +44,7 @@ public class PassportServiceBean implements PassportService {
     @Override
     public Passport getFree() {
         return passportRepository.findAll().stream()
+                .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
                 .filter(e -> (e.getEmployee() == null))
                 .findFirst().orElseThrow(() -> (new ResourceNotFoundException("Free Passport entity not found")));
     }
@@ -50,13 +52,15 @@ public class PassportServiceBean implements PassportService {
     //  Получить сущность Паспорт по идентификатору в бд
     @Override
     public Passport getById(Integer id) {
-        return passportRepository.findById(id).orElseThrow(() -> (new ResourceNotFoundException("Passport entity not found")));
+        Passport passport = passportRepository.findById(id).orElseThrow(() -> (new ResourceNotFoundException("Passport entity not found")));
+        if (!(passport.getDeleted() == null || passport.getDeleted() == false)) throw new ResourceNotFoundException("Passport entity is deleted");
+        return passport;
     }
 
     //  Обновить сущность Паспорт
     @Override
     public Passport updateById(Integer id, Passport updatePassportParam) {
-        Passport passport = passportRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        Passport passport = getById(id);
 
         passport.setFirstName(updatePassportParam.getFirstName());
         passport.setSecondName(updatePassportParam.getSecondName());
