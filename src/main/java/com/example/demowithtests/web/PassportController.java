@@ -34,4 +34,10 @@ public interface PassportController {
      * @return Обновленная сущность Паспорт
      */
     PassportResponseDto update(Integer passportId, PassportRequestDto passportRequestDto);
+
+    /**
+     * Логическое удаление сущности Паспорт
+     * @param passportId Идентификатор Паспорта в бд
+     */
+    void removeById(Integer passportId);
 }

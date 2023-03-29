@@ -37,4 +37,10 @@ public interface PassportService {
      * @return Обновленная сущность Паспорт
      */
     Passport updateById(Integer id, Passport passport);
+
+    /**
+     * Логическое удаление сущности Паспорт
+     * @param id Идентификатор Паспорта в бд
+     */
+    void removeById(Integer id);
 }

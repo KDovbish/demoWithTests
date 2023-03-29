@@ -25,4 +25,6 @@ public class Passport {
 
     @OneToOne(mappedBy = "passport")
     private Employee employee;
+
+    private Boolean deleted;
 }

@@ -66,6 +66,18 @@ public class PassportServiceBean implements PassportService {
         return passportRepository.save(passport);
     }
 
+    //  Логическое удаление сущности Паспорт
+    @Override
+    public void removeById(Integer id) {
+        Passport passport = getById(id);
+        //  Разрыв связи Сотрудник -> Паспорт
+        if (passport.getEmployee() != null) {
+            passport.getEmployee().setPassport(null);
+        }
+        passport.setDeleted(true);
+        passportRepository.save(passport);
+    }
+
     //  Генерация серийного номера для нового паспорта
     private String generateSerialNumber() {
         return UUID.randomUUID().toString();

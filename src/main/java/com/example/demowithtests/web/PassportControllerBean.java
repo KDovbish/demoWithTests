@@ -55,4 +55,12 @@ public class PassportControllerBean implements PassportController {
         Passport passport = passportService.updateById(passportId, passportMapper.passportRequestDtoToPassport(passportRequestDto));
         return passportMapper.passportToPassportResponseDto(passport);
     }
+
+    //  Логическое удаление сущности Паспорт
+    @Override
+    @PatchMapping("/passports/{passportId}/remove")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeById(@PathVariable Integer passportId) {
+        passportService.removeById(passportId);
+    }
 }
