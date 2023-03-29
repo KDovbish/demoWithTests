@@ -3,6 +3,7 @@ package com.example.demowithtests.service;
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.domain.Photo;
+import com.example.demowithtests.dto.PassportRequestDto;
 import com.example.demowithtests.dto.PhotoCreateDto;
 import com.example.demowithtests.dto.PhotoDto;
 import org.springframework.data.domain.Page;
@@ -137,6 +138,14 @@ public interface EmployeeService {
      * @return Обновленная сущность Сотрудник
      */
     Employee addPassportToEmployee(Integer employeeId, Integer passportId);
+
+    /**
+     * Добавить в существующую сущность Сотрудник связь на свободный Паспорт из пула свободных паспортов.
+     * @param employeeId Идентификатор сущности Сотрудник в бд
+     * @param passportParam Параметры паспорта, заданные на фронте, которые будут прописаны в Паспорт
+     * @return Обновленная сущность Сотрудник
+     */
+    Employee addPassportToEmployee(Integer employeeId, PassportRequestDto passportParam);
 
 
 

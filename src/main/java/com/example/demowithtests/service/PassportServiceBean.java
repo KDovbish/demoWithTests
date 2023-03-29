@@ -39,6 +39,14 @@ public class PassportServiceBean implements PassportService {
                 .collect(Collectors.toList());
     }
 
+    //  Получить первую свободную сущность Паспорт
+    @Override
+    public Passport getFree() {
+        return passportRepository.findAll().stream()
+                .filter(e -> (e.getEmployee() == null))
+                .findFirst().orElseThrow(() -> (new ResourceNotFoundException("Free Passport entity not found")));
+    }
+
     //  Получить сущность Паспорт по идентификатору в бд
     @Override
     public Passport getById(Integer id) {

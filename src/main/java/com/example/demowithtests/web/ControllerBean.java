@@ -243,8 +243,11 @@ public class ControllerBean implements Controller {
         return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.addPassportToEmployee(employeeId, passportId) );
     }
 
+    //  Связать Сотрудника и первый свободный Паспорт
     @Override
-    public EmployeeResponseDto addPassport(Integer employeeId, PassportRequestDto pasportRequestDto) {
-        return null;
+    @PatchMapping("/users/{employeeId}/passports")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponseDto addPassport(@PathVariable Integer employeeId, @RequestBody PassportRequestDto pasportRequestDto) {
+        return employeeMapStructMapper.employeeToEmployeeResponseDto(employeeService.addPassportToEmployee(employeeId, pasportRequestDto));
     }
 }

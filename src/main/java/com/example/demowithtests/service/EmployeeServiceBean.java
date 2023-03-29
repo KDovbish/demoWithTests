@@ -4,6 +4,7 @@ import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.domain.Passport;
 import com.example.demowithtests.domain.Photo;
+import com.example.demowithtests.dto.PassportRequestDto;
 import com.example.demowithtests.dto.PhotoCreateDto;
 import com.example.demowithtests.dto.PhotoDto;
 import com.example.demowithtests.repository.EmployeeRepository;
@@ -364,6 +365,21 @@ public class EmployeeServiceBean implements EmployeeService {
     public Employee addPassportToEmployee(Integer employeeId, Integer passportId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
         Passport passport = passportService.getById(passportId);
+        employee.setPassport(passport);
+        return employeeRepository.save(employee);
+    }
+
+    //  Связать существующую сущность Сотрудник с первым свободным Паспортом
+    @Override
+    public Employee addPassportToEmployee(Integer employeeId, PassportRequestDto passportParam) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
+        Passport passport = passportService.getFree();
+
+        passport.setFirstName(passportParam.firstName);
+        passport.setSecondName(passportParam.secondName);
+        passport.setDateOfBirthday(passportParam.dateOfBirthday);
+        passport.setExpireDate(passportParam.expireDate);
+
         employee.setPassport(passport);
         return employeeRepository.save(employee);
     }
