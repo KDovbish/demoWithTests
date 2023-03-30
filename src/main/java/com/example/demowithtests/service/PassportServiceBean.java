@@ -25,6 +25,7 @@ public class PassportServiceBean implements PassportService {
             for (int i = 1; i <= n; i++) {
                 passport = new Passport();
                 passport.setSerialNumber(generateSerialNumber());
+                passport.setIsFree(Boolean.TRUE);
                 passportList.add(passport);
             }
             passportRepository.saveAll(passportList);
@@ -45,8 +46,15 @@ public class PassportServiceBean implements PassportService {
     public Passport getFree() {
         return passportRepository.findAll().stream()
                 .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
+                .filter(e -> (e.getIsFree()))
+                .findFirst().orElseThrow(() -> (new ResourceNotFoundException("Free Passport entity not found")));
+
+/*
+        return passportRepository.findAll().stream()
+                .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
                 .filter(e -> (e.getEmployee() == null))
                 .findFirst().orElseThrow(() -> (new ResourceNotFoundException("Free Passport entity not found")));
+*/
     }
 
     //  Получить сущность Паспорт по идентификатору в бд

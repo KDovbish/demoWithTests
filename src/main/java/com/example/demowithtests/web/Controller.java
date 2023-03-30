@@ -169,7 +169,7 @@ public interface Controller {
      * @return DTO обновленной сущности Сотрудник
      */
     @Operation(summary = "Добавить паспорт", description = "Создать связь между существующими сущностями: Сотрудник -> Паспорт", tags = {"Employee"})
-    EmployeeResponseDto addPassport(Integer employeeId, Integer passportId);
+    EmployeeResponseDto addPassport(Integer employeeId);
 
     /**
      * Добавить в сущность Сотрудника связь на первый свободный Паспорт.

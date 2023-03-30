@@ -362,10 +362,28 @@ public class EmployeeServiceBean implements EmployeeService {
 
     //  Связать существующую сущность Сотрудник с существующей сущностью Паспорт
     @Override
-    public Employee addPassportToEmployee(Integer employeeId, Integer passportId) {
+    public Employee addPassportToEmployee(Integer employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
-        Passport passport = passportService.getById(passportId);
-        employee.setPassport(passport);
+        //Passport passport = passportService.getById(passportId);
+
+//        if (passport.getIsFree()) {
+//            employee.setPassport(passport);
+//        } else {
+         employee.setPassport(passportService.getFree());
+         employee.getPassport().setIsFree(Boolean.FALSE);
+//        }
+
+
+
+/*
+        if (passport.getEmployee() == null) {
+            employee.setPassport(passport);
+        } else {
+            throw new RuntimeException("OneToOne validation failed");
+        }
+*/
+
+        //employee.setPassport(passport);
         return employeeRepository.save(employee);
     }
 

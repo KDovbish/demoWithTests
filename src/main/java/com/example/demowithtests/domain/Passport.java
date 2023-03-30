@@ -26,5 +26,6 @@ public class Passport {
     @OneToOne(mappedBy = "passport")
     private Employee employee;
 
+    private Boolean isFree = Boolean.TRUE;
     private Boolean deleted;
 }

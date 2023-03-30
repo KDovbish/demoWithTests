@@ -137,7 +137,8 @@ public interface EmployeeService {
      * @param passportId Идентификатор сущности Паспорт в бд
      * @return Обновленная сущность Сотрудник
      */
-    Employee addPassportToEmployee(Integer employeeId, Integer passportId);
+    Employee addPassportToEmployee(Integer employeeId);
+
 
     /**
      * Добавить в существующую сущность Сотрудник связь на свободный Паспорт из пула свободных паспортов.

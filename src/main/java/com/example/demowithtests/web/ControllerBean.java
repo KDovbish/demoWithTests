@@ -234,6 +234,7 @@ public class ControllerBean implements Controller {
         return employeeService.getPhotoImage(photoId);
     }
 
+/*
     //  Связать Сотрудника и Паспорт
     @Override
     @PatchMapping("/users/{employeeId}/passports/{passportId}")
@@ -241,10 +242,19 @@ public class ControllerBean implements Controller {
     public EmployeeResponseDto addPassport(@PathVariable Integer employeeId, @PathVariable Integer passportId) {
         return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.addPassportToEmployee(employeeId, passportId) );
     }
+*/
+
+    @Override
+    @PatchMapping("/users/{employeeId}/passports")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponseDto addPassport(@PathVariable Integer employeeId) {
+        return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.addPassportToEmployee(employeeId) );
+    }
+
 
     //  Связать Сотрудника и первый свободный Паспорт
     @Override
-    @PatchMapping("/users/{employeeId}/passports")
+    @PutMapping("/users/{employeeId}/passports")
     @ResponseStatus(HttpStatus.OK)
     public EmployeeResponseDto addPassport(@PathVariable Integer employeeId, @RequestBody PassportRequestDto pasportRequestDto) {
         return employeeMapStructMapper.employeeToEmployeeResponseDto(employeeService.addPassportToEmployee(employeeId, pasportRequestDto));
