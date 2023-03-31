@@ -56,7 +56,7 @@ public class PassportServiceBean implements PassportService {
     @Override
     public Passport getById(Integer id) {
         Passport passport = passportRepository.findById(id).orElseThrow(() -> (new ResourceNotFoundException("Passport entity not found")));
-        if (!(passport.getDeleted() == null || passport.getDeleted() == false)) throw new ResourceNotFoundException("Passport entity is deleted");
+        if (passport.getDeleted() == false) throw new ResourceNotFoundException("Passport entity is deleted");
         return passport;
     }
 
