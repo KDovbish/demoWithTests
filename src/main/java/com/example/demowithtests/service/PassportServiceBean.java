@@ -38,8 +38,8 @@ public class PassportServiceBean implements PassportService {
     @Override
     public List<Passport> getAllFree() {
         return passportRepository.findAll().stream()
-                .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
-                .filter(e -> (e.getEmployee() == null))
+                .filter(e -> (e.getDeleted() == false))
+                .filter(e -> (e.getState() == PassportState.NEW))
                 .collect(Collectors.toList());
     }
 
@@ -47,16 +47,9 @@ public class PassportServiceBean implements PassportService {
     @Override
     public Passport getFree() {
         return passportRepository.findAll().stream()
-                .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
+                .filter(e -> (e.getDeleted() == false))
                 .filter(e -> (e.getState() == PassportState.NEW))
                 .findFirst().orElseThrow(() -> (new ResourceNotFoundException("Free Passport entity not found")));
-
-/*
-        return passportRepository.findAll().stream()
-                .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
-                .filter(e -> (e.getEmployee() == null))
-                .findFirst().orElseThrow(() -> (new ResourceNotFoundException("Free Passport entity not found")));
-*/
     }
 
     //  Получить сущность Паспорт по идентификатору в бд
