@@ -6,6 +6,7 @@ import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.EmployeeService;
 import com.example.demowithtests.util.config.EmployeeMapStructMapper;
+import com.example.demowithtests.util.config.PassportMapper;
 import com.example.demowithtests.validation.ImageRestrictions;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,8 +40,9 @@ import java.util.stream.Collectors;
 public class ControllerBean implements Controller {
 
     private final EmployeeService employeeService;
-    //private final EmployeeConverter converter;
     private final EmployeeMapStructMapper employeeMapStructMapper;
+    private final PassportMapper passportMapper;
+
 
     //Операция сохранения юзера в базу данных
     @PostMapping("/users")
@@ -234,16 +236,9 @@ public class ControllerBean implements Controller {
         return employeeService.getPhotoImage(photoId);
     }
 
-/*
-    //  Связать Сотрудника и Паспорт
-    @Override
-    @PatchMapping("/users/{employeeId}/passports/{passportId}")
-    @ResponseStatus(HttpStatus.OK)
-    public EmployeeResponseDto addPassport(@PathVariable Integer employeeId, @PathVariable Integer passportId) {
-        return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.addPassportToEmployee(employeeId, passportId) );
-    }
-*/
 
+
+    //  Привязать первый свободный Паспорт из пула свободных паспортов к Сотруднику
     @Override
     @PatchMapping("/users/{employeeId}/passports")
     @ResponseStatus(HttpStatus.OK)
@@ -251,7 +246,18 @@ public class ControllerBean implements Controller {
         return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.addPassportToEmployee(employeeId) );
     }
 
+    //  Обновить Паспорт Сотрудника
+    @Override
+    @PutMapping("/users/{employeeId}/passports")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponseDto updatePassport(@PathVariable Integer employeeId, @RequestBody PassportRequestDto passportRequestDto) {
+        return employeeMapStructMapper.employeeToEmployeeResponseDto(
+                    employeeService.updatePassport(employeeId, passportMapper.passportRequestDtoToPassport(passportRequestDto))
+        );
+    }
 
+
+    /*
     //  Связать Сотрудника и первый свободный Паспорт
     @Override
     @PutMapping("/users/{employeeId}/passports")
@@ -259,4 +265,5 @@ public class ControllerBean implements Controller {
     public EmployeeResponseDto addPassport(@PathVariable Integer employeeId, @RequestBody PassportRequestDto pasportRequestDto) {
         return employeeMapStructMapper.employeeToEmployeeResponseDto(employeeService.addPassportToEmployee(employeeId, pasportRequestDto));
     }
+*/
 }

@@ -162,14 +162,31 @@ public interface Controller {
     })
     byte[] getPhotoImage(Integer photoId);
 
+
     /**
-     * Добавить в сущность Сотрудника связь на Паспорт
-     * @param employeeId Идентификатор уже существующего Сотрудника в бд
-     * @param passportId Идентификатор уже существующего Паспорта в бд
+     * Добавить в сущность Сотрудник связь на свободный Паспорт из пула паспортов
+     * @param employeeId Идентификатор Сотрудника в бд
      * @return DTO обновленной сущности Сотрудник
      */
-    @Operation(summary = "Добавить паспорт", description = "Создать связь между существующими сущностями: Сотрудник -> Паспорт", tags = {"Employee"})
+    @Operation(summary = "Добавить паспорт", description = "Создать связь Сотрудник -> Паспорт. Если подобная связь у Сотрудника уже есть, формируется цепочка Паспортов", tags = {"Employee"})
     EmployeeResponseDto addPassport(Integer employeeId);
+
+
+    /**
+     * Обновить паспорт Сотрудника
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param passportRequestDto Параметры для заполнения паспорта, переданные с фронта
+     * @return Обновленные сущности Сотрудник + Паспорт
+     */
+    EmployeeResponseDto updatePassport(Integer employeeId, PassportRequestDto passportRequestDto);
+
+
+
+
+
+
+
+
 
     /**
      * Добавить в сущность Сотрудника связь на первый свободный Паспорт.
@@ -178,11 +195,11 @@ public interface Controller {
      * @param pasportRequestDto Параметры Паспорта, которые заполняются на фронте
      * @return DTO обновленной сущности Сотрудник
      */
-    @Operation(summary = "Добавить паспорт", description = "Для существующей сущности Сотрудник ищется свободный Паспорт и наполняется заданными значениями", tags = {"Employee"})
-    @Parameters(value = {
-            @Parameter(name = "employeeId", description = "Идентификатор Сотрудника в бд"),
-            @Parameter(name = "pasportRequestDto", description = "Поля для заполнения нового Паспорта")
-    })
-    EmployeeResponseDto addPassport(Integer employeeId, PassportRequestDto pasportRequestDto);
+    //@Operation(summary = "Добавить паспорт", description = "Для существующей сущности Сотрудник ищется свободный Паспорт и наполняется заданными значениями", tags = {"Employee"})
+    //@Parameters(value = {
+    //        @Parameter(name = "employeeId", description = "Идентификатор Сотрудника в бд"),
+    //        @Parameter(name = "pasportRequestDto", description = "Поля для заполнения нового Паспорта")
+    //})
+    //EmployeeResponseDto addPassport(Integer employeeId, PassportRequestDto pasportRequestDto);
 
 }

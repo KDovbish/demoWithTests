@@ -1,9 +1,6 @@
 package com.example.demowithtests.service;
 
-import com.example.demowithtests.domain.Employee;
-import com.example.demowithtests.domain.Gender;
-import com.example.demowithtests.domain.Passport;
-import com.example.demowithtests.domain.Photo;
+import com.example.demowithtests.domain.*;
 import com.example.demowithtests.dto.PassportRequestDto;
 import com.example.demowithtests.dto.PhotoCreateDto;
 import com.example.demowithtests.dto.PhotoDto;
@@ -360,33 +357,40 @@ public class EmployeeServiceBean implements EmployeeService {
         return photo.getImage();
     }
 
-    //  Связать существующую сущность Сотрудник с существующей сущностью Паспорт
+    //  Связать сущность Сотрудник с первым свободным Паспортом из пула
+    //  Если к Сотруднику уже привязан какой-либо Паспорт, то метод формирует цепочку Паспортов
     @Override
     public Employee addPassportToEmployee(Integer employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
-        //Passport passport = passportService.getById(passportId);
+        Passport freePassport = passportService.getFree();
 
-//        if (passport.getIsFree()) {
-//            employee.setPassport(passport);
-//        } else {
-         employee.setPassport(passportService.getFree());
-         employee.getPassport().setIsFree(Boolean.FALSE);
-//        }
-
-
-
-/*
-        if (passport.getEmployee() == null) {
-            employee.setPassport(passport);
-        } else {
-            throw new RuntimeException("OneToOne validation failed");
+        //  Начинаем цепочку паспортов только в том случае, если у Сотрудника уже существует какой-то паспорт
+        if (employee.getPassport() != null) {
+            employee.getPassport().setNext(freePassport);
+            freePassport.setPrev(employee.getPassport());
         }
-*/
 
-        //employee.setPassport(passport);
+        employee.setPassport(freePassport);
+        employee.getPassport().setState(PassportState.ACTIVE);
         return employeeRepository.save(employee);
     }
 
+    //  Обновить Паспорт Сотрудника
+    @Override
+    public Employee updatePassport(Integer employeeId, Passport passport) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
+        if (employee.getPassport() == null) throw new ResourceNotFoundException("Passport entity is not found for Employee entity");
+
+        employee.getPassport().setFirstName(passport.getFirstName());
+        employee.getPassport().setSecondName(passport.getSecondName());
+        employee.getPassport().setDateOfBirthday(passport.getDateOfBirthday());
+        employee.getPassport().setExpireDate(passport.getExpireDate());
+
+        return employeeRepository.save(employee);
+    }
+
+
+    /*
     //  Связать существующую сущность Сотрудник с первым свободным Паспортом
     @Override
     public Employee addPassportToEmployee(Integer employeeId, PassportRequestDto passportParam) {
@@ -401,4 +405,5 @@ public class EmployeeServiceBean implements EmployeeService {
         employee.setPassport(passport);
         return employeeRepository.save(employee);
     }
+*/
 }

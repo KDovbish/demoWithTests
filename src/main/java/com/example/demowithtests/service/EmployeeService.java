@@ -2,6 +2,7 @@ package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.domain.Passport;
 import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.dto.PassportRequestDto;
 import com.example.demowithtests.dto.PhotoCreateDto;
@@ -132,12 +133,24 @@ public interface EmployeeService {
     byte[] getPhotoImage(Integer photoId);
 
     /**
-     * Добавить в существующую сущность Сотрудник связь на существующую сущность Паспорт
+     * Связать сущность Сотрудник со свободным Паспорт из пула.
+     * Если к Сотруднику уже привязан Паспорт, метод формирует цепочку паспортов
      * @param employeeId Идентификатор сущности Сотрудник в бд
-     * @param passportId Идентификатор сущности Паспорт в бд
      * @return Обновленная сущность Сотрудник
      */
     Employee addPassportToEmployee(Integer employeeId);
+
+    /**
+     * Обновить Паспорт сотрудника
+     * @param employeeId Идентификатор сущности Сотрудник в бд
+     * @param passport Данные паспорта для обновления
+     * @return Обновленная сущность Паспорт в сущность Сотрудник
+     */
+    Employee updatePassport(Integer employeeId, Passport passport);
+
+
+
+
 
 
     /**
@@ -146,7 +159,8 @@ public interface EmployeeService {
      * @param passportParam Параметры паспорта, заданные на фронте, которые будут прописаны в Паспорт
      * @return Обновленная сущность Сотрудник
      */
-    Employee addPassportToEmployee(Integer employeeId, PassportRequestDto passportParam);
+    //Employee addPassportToEmployee(Integer employeeId, PassportRequestDto passportParam);
+
 
 
 
