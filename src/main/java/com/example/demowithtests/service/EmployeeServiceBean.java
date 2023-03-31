@@ -389,6 +389,15 @@ public class EmployeeServiceBean implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    //  Изменить признак состояния Паспорта Сотрудника
+    @Override
+    public Employee changePassportState(Integer employeeId, PassportState passportState) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
+        if (employee.getPassport() == null) throw new ResourceNotFoundException("Passport entity is not found for Employee entity");
+        employee.getPassport().setState(passportState);
+        return employeeRepository.save(employee);
+    }
+
 
     /*
     //  Связать существующую сущность Сотрудник с первым свободным Паспортом

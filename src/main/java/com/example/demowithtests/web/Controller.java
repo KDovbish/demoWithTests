@@ -2,6 +2,7 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.domain.PassportState;
 import com.example.demowithtests.dto.*;
 import com.example.demowithtests.validation.ImageRestrictions;
 import io.swagger.v3.oas.annotations.Operation;
@@ -179,6 +180,14 @@ public interface Controller {
      * @return Обновленные сущности Сотрудник + Паспорт
      */
     EmployeeResponseDto updatePassport(Integer employeeId, PassportRequestDto passportRequestDto);
+
+    /**
+     * Изменить признак состояния паспорта сотрудника
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param passportState Новое состояние, прописываемое в сущности Паспорт
+     * @return Обновленные сущности Сотрудник + Паспорт
+     */
+    EmployeeResponseDto changePassportState(Integer employeeId, PassportState passportState);
 
 
 

@@ -1,5 +1,7 @@
 package com.example.demowithtests.dto;
 
+import com.example.demowithtests.domain.PassportState;
+
 import java.time.LocalDateTime;
 
 public class PassportResponseDto {
@@ -9,4 +11,5 @@ public class PassportResponseDto {
     public LocalDateTime dateOfBirthday;
     public String serialNumber;
     public LocalDateTime expireDate;
+    public PassportState state;
 }

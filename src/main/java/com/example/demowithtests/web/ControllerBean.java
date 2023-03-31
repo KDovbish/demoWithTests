@@ -2,6 +2,7 @@ package com.example.demowithtests.web;
 
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
+import com.example.demowithtests.domain.PassportState;
 import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.dto.*;
 import com.example.demowithtests.service.EmployeeService;
@@ -240,7 +241,7 @@ public class ControllerBean implements Controller {
 
     //  Привязать первый свободный Паспорт из пула свободных паспортов к Сотруднику
     @Override
-    @PatchMapping("/users/{employeeId}/passports")
+    @PatchMapping("/users/{employeeId}/newpassport")
     @ResponseStatus(HttpStatus.OK)
     public EmployeeResponseDto addPassport(@PathVariable Integer employeeId) {
         return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.addPassportToEmployee(employeeId) );
@@ -256,6 +257,12 @@ public class ControllerBean implements Controller {
         );
     }
 
+    //  Обновить признак состояния Паспорта Сотрудника
+    @Override
+    @PatchMapping("/users/{employeeId}/passportstate/{passportState}")
+    public EmployeeResponseDto changePassportState(@PathVariable Integer employeeId, @PathVariable PassportState passportState) {
+        return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.changePassportState(employeeId, passportState) );
+    }
 
     /*
     //  Связать Сотрудника и первый свободный Паспорт

@@ -1,9 +1,6 @@
 package com.example.demowithtests.service;
 
-import com.example.demowithtests.domain.Employee;
-import com.example.demowithtests.domain.Gender;
-import com.example.demowithtests.domain.Passport;
-import com.example.demowithtests.domain.Photo;
+import com.example.demowithtests.domain.*;
 import com.example.demowithtests.dto.PassportRequestDto;
 import com.example.demowithtests.dto.PhotoCreateDto;
 import com.example.demowithtests.dto.PhotoDto;
@@ -147,6 +144,14 @@ public interface EmployeeService {
      * @return Обновленная сущность Паспорт в сущность Сотрудник
      */
     Employee updatePassport(Integer employeeId, Passport passport);
+
+    /**
+     * Изменить признак состояния сущности Паспорт, котороя привязана к Сотруднику
+     * @param employeeId Идентификатор сущности Сотрудник в бд
+     * @param passportState Новое состояние Паспорта
+     * @return Обновленная сущность Паспорт в сущность Сотрудник
+     */
+    Employee changePassportState(Integer employeeId, PassportState passportState);
 
 
 
