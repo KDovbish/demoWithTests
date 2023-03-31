@@ -31,12 +31,20 @@ public interface PassportService {
     Passport getById(Integer id);
 
     /**
-     * Обновление сущности Паспорт
-     * @param id Идентификатор Паспорта в бд
-     * @param passport Параметры для обновления
-     * @return Обновленная сущность Паспорт
+     * Получить цепочку Папортов начиная от Паспорта с заданным идентификатором
+     * @param id Идентификатор паспорта, с котрого будет начинаться цепочка
+     * @return Список найденных Паспортов
      */
+    List<Passport> getChain(Integer id);
+
+
+
+
+
+/*
+    //Обновление сущности Паспорт
     Passport updateById(Integer id, Passport passport);
+*/
 
     /**
      * Логическое удаление сущности Паспорт

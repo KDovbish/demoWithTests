@@ -35,19 +35,6 @@ public interface PassportController {
     @Operation(summary = "Запросить Паспорт", tags = {"Passport"})
     PassportResponseDto getPassportById(Integer passportId);
 
-    /**
-     * Обновить содержимое заданной сущности Паспорт
-     * @param passportId Идентификатор Паспорта в бд
-     * @param passportRequestDto Параметры для обновления
-     * @return Обновленная сущность Паспорт
-     */
-    @Operation(summary = "Обновить Паспорт", description = "Обновить существующий Паспорт по идентификатору в бд", tags = {"Passport"})
-    @Parameters(value = {
-            @Parameter(name = "passportId", description = "Идентификатор Паспорта в бд"),
-            @Parameter(name = "passportRequestDto", description = "Параметры паспорта для обновления")
-    })
-
-    PassportResponseDto update(Integer passportId, PassportRequestDto passportRequestDto);
 
     /**
      * Логическое удаление сущности Паспорт
@@ -55,4 +42,20 @@ public interface PassportController {
      */
     @Operation(summary = "Удалить Паспорт", description = "Логическое удаление Паспорта с разрывом связи(если существует) от Сотрудника", tags = {"Passport"})
     void removeById(Integer passportId);
+
+
+
+/*
+     * Обновить содержимое заданной сущности Паспорт
+     * @param passportId Идентификатор Паспорта в бд
+     * @param passportRequestDto Параметры для обновления
+     * @return Обновленная сущность Паспорт
+    @Operation(summary = "Обновить Паспорт", description = "Обновить существующий Паспорт по идентификатору в бд", tags = {"Passport"})
+    @Parameters(value = {
+            @Parameter(name = "passportId", description = "Идентификатор Паспорта в бд"),
+            @Parameter(name = "passportRequestDto", description = "Параметры паспорта для обновления")
+    })
+    PassportResponseDto update(Integer passportId, PassportRequestDto passportRequestDto);
+*/
+
 }

@@ -153,6 +153,13 @@ public interface EmployeeService {
      */
     Employee changePassportState(Integer employeeId, PassportState passportState);
 
+    /**
+     * Получить цепочку Паспортов, которые когда либо были привязаны к сущности Сотрудник
+     * @param employeeId Идентификатор сущности Сотрудник в бд
+     * @return Цепочка Паспортов в виде списка
+     */
+    List<Passport> getPassportChain(Integer employeeId);
+
 
 
 

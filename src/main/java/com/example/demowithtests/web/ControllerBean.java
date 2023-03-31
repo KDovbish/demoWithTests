@@ -260,11 +260,22 @@ public class ControllerBean implements Controller {
     //  Обновить признак состояния Паспорта Сотрудника
     @Override
     @PatchMapping("/users/{employeeId}/passportstate/{passportState}")
+    @ResponseStatus(HttpStatus.OK)
     public EmployeeResponseDto changePassportState(@PathVariable Integer employeeId, @PathVariable PassportState passportState) {
         return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.changePassportState(employeeId, passportState) );
     }
 
-    /*
+    //  Получить цепочку Паспортов Сотрудника
+    @Override
+    @GetMapping("/users/{employeeId}/passportchain")
+    @ResponseStatus(HttpStatus.OK)
+    public List<PassportResponseChainDto> getPassportChain(@PathVariable Integer employeeId) {
+        return employeeService.getPassportChain(employeeId).stream()
+                    .map(e -> passportMapper.passportToPassportResponseChainDto(e))
+                    .collect(Collectors.toList());
+    }
+
+/*
     //  Связать Сотрудника и первый свободный Паспорт
     @Override
     @PutMapping("/users/{employeeId}/passports")

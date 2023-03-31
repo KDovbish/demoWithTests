@@ -60,6 +60,16 @@ public class PassportServiceBean implements PassportService {
         return passport;
     }
 
+    //  Получить цепочку Паспортов, начиная с Паспорта с заданным идентификтором
+    @Override
+    public List<Passport> getChain(Integer id) {
+        return passportRepository.findPassportChain(id);
+    }
+
+
+
+
+/*
     //  Обновить сущность Паспорт
     @Override
     public Passport updateById(Integer id, Passport updatePassportParam) {
@@ -72,6 +82,7 @@ public class PassportServiceBean implements PassportService {
 
         return passportRepository.save(passport);
     }
+*/
 
     //  Логическое удаление сущности Паспорт
     @Override

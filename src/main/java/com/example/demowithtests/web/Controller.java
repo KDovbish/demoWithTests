@@ -181,6 +181,7 @@ public interface Controller {
      */
     EmployeeResponseDto updatePassport(Integer employeeId, PassportRequestDto passportRequestDto);
 
+
     /**
      * Изменить признак состояния паспорта сотрудника
      * @param employeeId Идентификатор Сотрудника в бд
@@ -188,6 +189,14 @@ public interface Controller {
      * @return Обновленные сущности Сотрудник + Паспорт
      */
     EmployeeResponseDto changePassportState(Integer employeeId, PassportState passportState);
+
+
+    /**
+     * Получить цепочку Паспортов закрепленных за Сотрудником
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @return Цепочка Паспортов в виде списка
+     */
+    List<PassportResponseChainDto> getPassportChain(Integer employeeId);
 
 
 

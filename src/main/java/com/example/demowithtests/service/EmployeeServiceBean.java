@@ -398,6 +398,13 @@ public class EmployeeServiceBean implements EmployeeService {
         return employeeRepository.save(employee);
     }
 
+    //  Получить цепочку Паспортов, закрепленных за Сотрдником
+    @Override
+    public List<Passport> getPassportChain(Integer employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(()->(new ResourceNotFoundException("Employee entity not found")));
+        if (employee.getPassport() == null) throw new ResourceNotFoundException("Passport entity is not found for Employee entity");
+        return passportService.getChain(employee.getPassport().getId());
+    }
 
     /*
     //  Связать существующую сущность Сотрудник с первым свободным Паспортом
