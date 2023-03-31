@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Passport;
+import com.example.demowithtests.domain.PassportState;
 import com.example.demowithtests.repository.PassportRepository;
 import com.example.demowithtests.util.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,8 @@ public class PassportServiceBean implements PassportService {
             for (int i = 1; i <= n; i++) {
                 passport = new Passport();
                 passport.setSerialNumber(generateSerialNumber());
-                passport.setIsFree(Boolean.TRUE);
+                passport.setState(PassportState.NEW);
+                passport.setDeleted(Boolean.FALSE);
                 passportList.add(passport);
             }
             passportRepository.saveAll(passportList);
@@ -46,7 +48,7 @@ public class PassportServiceBean implements PassportService {
     public Passport getFree() {
         return passportRepository.findAll().stream()
                 .filter(e -> (e.getDeleted() == null || e.getDeleted() == false))
-                .filter(e -> (e.getIsFree()))
+                .filter(e -> (e.getState() == PassportState.NEW))
                 .findFirst().orElseThrow(() -> (new ResourceNotFoundException("Free Passport entity not found")));
 
 /*
