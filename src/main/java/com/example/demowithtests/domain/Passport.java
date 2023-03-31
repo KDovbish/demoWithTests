@@ -3,6 +3,7 @@ package com.example.demowithtests.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +27,16 @@ public class Passport {
     @OneToOne(mappedBy = "passport")
     private Employee employee;
 
-    private Boolean isFree = Boolean.TRUE;
+    @OneToOne
+    @JoinColumn(name = "prev_id", referencedColumnName = "id")
+    private Passport prev;
+
+    @OneToOne
+    @JoinColumn(name = "next_id", referencedColumnName = "id")
+    private Passport next;
+
+    @Accessors(chain = true)
+    private PassportState state;
+
     private Boolean deleted;
 }
