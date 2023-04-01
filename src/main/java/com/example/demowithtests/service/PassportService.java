@@ -37,6 +37,11 @@ public interface PassportService {
      */
     List<Passport> getChain(Integer id);
 
+    /**
+     * Логическое удаление сущности Паспорт
+     * @param id Идентификатор Паспорта в бд
+     */
+    void removeById(Integer id);
 
 
 
@@ -46,9 +51,4 @@ public interface PassportService {
     Passport updateById(Integer id, Passport passport);
 */
 
-    /**
-     * Логическое удаление сущности Паспорт
-     * @param id Идентификатор Паспорта в бд
-     */
-    void removeById(Integer id);
 }

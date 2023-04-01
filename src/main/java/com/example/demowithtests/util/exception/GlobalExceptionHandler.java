@@ -74,6 +74,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorDetails( Date.from(Instant.now()), ex.getMessage(), request.getDescription(false) ), HttpStatus.NOT_ACCEPTABLE );
     }
 
+    //  Обработчик события недопустимости логического удаления ресурса
+    @ExceptionHandler(ResourceRemoveNotAllowedException.class)
+    public ResponseEntity<ErrorDetails> resourceRemoveNotAllowedExeptionHandler(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(new ErrorDetails(Date.from(Instant.now()), ex.getMessage(), request.getDescription(false)), HttpStatus.NOT_ACCEPTABLE);
+    }
+
 
     @Data
     @AllArgsConstructor
