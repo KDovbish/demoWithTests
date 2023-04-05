@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -199,6 +200,12 @@ public interface Controller {
     List<PassportResponseChainDto> getPassportChain(Integer employeeId);
 
 
+    @Operation(summary = "Добавить Сотрудника в Кабинет", description = "Создать связь Сотрудник - Кабинет в таблице соединения отношения Многие ко Многим", tags = {"Employee"})
+    @Parameters(value = {
+            @Parameter(name = "employeeId", description = "Иденентификатор сущности Сотрудник в бд"),
+            @Parameter(name = "cabinetId", description = "Идентификатор сущности Кабинет в бд")
+    })
+    EmployeeResponseDto addEmployeeToCabinet(Integer employeeId, Integer cabinetId);
 
 
 

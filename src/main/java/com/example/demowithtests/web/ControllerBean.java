@@ -1,5 +1,6 @@
 package com.example.demowithtests.web;
 
+import com.electronwill.nightconfig.core.conversion.Path;
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.domain.PassportState;
@@ -275,6 +276,13 @@ public class ControllerBean implements Controller {
                     .collect(Collectors.toList());
     }
 
+    //  Добавить Сотрудника в Кабинет
+    @Override
+    @PutMapping("/users/{employeeId}/cabinets/{cabinetId}/add")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponseDto addEmployeeToCabinet(@PathVariable Integer employeeId, @PathVariable Integer cabinetId) {
+        return employeeMapStructMapper.employeeToEmployeeResponseDto(employeeService.addEmployeeToCabinet(employeeId, cabinetId));
+    }
 
 
 /*

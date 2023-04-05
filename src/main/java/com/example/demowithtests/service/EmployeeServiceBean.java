@@ -36,6 +36,8 @@ public class EmployeeServiceBean implements EmployeeService {
     private final GenerateRandom generateRandom;
     private final PhotoRepositary photoRepositary;
     private final PassportService passportService;
+    private final CabinetService cabinetService;
+    private final EmployeeCabinetJoinService employeeCabinetJoinService;
 
     @Override
     public Employee create(@Valid Employee employee) {
@@ -57,7 +59,7 @@ public class EmployeeServiceBean implements EmployeeService {
 
     @Override
     public Employee getById(Integer id) {
-        var employee = employeeRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+        var employee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee entity not found"));
 
         //  Замена null значения isVisible на true
         changeStatus(employee);
@@ -405,6 +407,17 @@ public class EmployeeServiceBean implements EmployeeService {
         if (employee.getPassport() == null) throw new ResourceNotFoundException("Passport entity is not found for Employee entity");
         return passportService.getChain(employee.getPassport().getId());
     }
+
+    //  Связать Сотрудника с Кабинетом
+    @Override
+    public Employee addEmployeeToCabinet(Integer employeeId, Integer cabinetId) {
+        Employee employee = getById(employeeId);
+        Cabinet cabinet = cabinetService.getCabinet(cabinetId);
+        employeeCabinetJoinService.makeJoin(employee, cabinet);
+        return employee;
+    }
+
+
 
     /*
     //  Связать существующую сущность Сотрудник с первым свободным Паспортом

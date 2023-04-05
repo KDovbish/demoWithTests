@@ -161,6 +161,16 @@ public interface EmployeeService {
     List<Passport> getPassportChain(Integer employeeId);
 
 
+    /**
+     * Связать сущность Сотрудник с Кабинетом
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param cabinetId Идентификатор Кабинета в бд
+     * @return Обновленная сущность Сотрудник
+     */
+    Employee addEmployeeToCabinet(Integer employeeId, Integer cabinetId);
+
+
+
 
 
 

@@ -66,4 +66,7 @@ public class CabinetControllerBean implements CabinetController {
                 cabinetService.update(id, cabinetMapper.cabinetRequestDtoToCabinet(cabinetRequestDto))
         );
     }
+
+
+
 }
