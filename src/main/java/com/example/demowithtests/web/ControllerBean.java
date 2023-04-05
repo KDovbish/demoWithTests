@@ -286,13 +286,22 @@ public class ControllerBean implements Controller {
         return employeeMapStructMapper.employeeToEmployeeResponseDto(employeeService.addEmployeeToCabinet(employeeId, cabinetId));
     }
 
-    //  Прописать статус связи Сотрудник-Кабинет
+    //  Удалить(логический разрыв связи) Сотрудника из Кабинета
     @Override
     @PutMapping("/users/{employeeId}/cabinets/{cabinetId}/remove")
     @ResponseStatus(HttpStatus.OK)
     public EmployeeResponseDto removeEmployeeFromCabinet(@PathVariable Integer employeeId, @PathVariable Integer cabinetId) {
         return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.logicalRemoveEmployeeFromCabinet(employeeId, cabinetId) );
     }
+
+    //  Удалить(физическое удаление связи) Сотрудника из Кабинета
+    @Override
+    @DeleteMapping("/users/{employeeId}/cabinets/{cabinetId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeEmployeeFromCabinet_adminFn(@PathVariable Integer employeeId, @PathVariable Integer cabinetId) {
+        employeeService.physicalRemoveEmployeeFromCabinet(employeeId, cabinetId);
+    }
+
 
     /*
     //  Связать Сотрудника и первый свободный Паспорт

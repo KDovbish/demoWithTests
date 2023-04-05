@@ -215,6 +215,15 @@ public interface Controller {
     EmployeeResponseDto removeEmployeeFromCabinet(Integer employeeId, Integer cabinetId);
 
 
+    @Operation(summary = "Удалить Сотрудника из Кабинета", description = "Физическое удаление связи в join-таблице", tags = {"Employee"})
+    @Parameters(value = {
+            @Parameter(name = "employeeId", description = "Иденентификатор сущности Сотрудник в бд"),
+            @Parameter(name = "cabinetId", description = "Идентификатор сущности Кабинет в бд")
+    })
+    void removeEmployeeFromCabinet_adminFn(Integer employeeId, Integer cabinetId);
+
+
+
 
 
     /**

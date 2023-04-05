@@ -21,7 +21,6 @@ public interface EmployeeCabinetJoinService {
      */
     EmployeeCabinetJoinEntity getById(Integer employeeId, Integer cabinetId);
 
-
     /**
      * Прописать статус связи Сотрудник - Кабинет
      * @param employeeId Идентификатор Сотрудника в бд
@@ -30,5 +29,12 @@ public interface EmployeeCabinetJoinService {
      * @return Обновленная сущность соединяющей таблицы
      */
     EmployeeCabinetJoinEntity setJoinStatus(Integer employeeId, Integer cabinetId, Boolean status);
+
+    /**
+     * Физически удалить связь Сотрудник - Кабинет
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param cabinetId Идентификатор Кабинета в бд
+     */
+    void removeJoin(Integer employeeId, Integer cabinetId);
 
 }

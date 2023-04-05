@@ -423,6 +423,13 @@ public class EmployeeServiceBean implements EmployeeService {
         return employeeCabinetJoinService.setJoinStatus(employeeId, cabinetId, Boolean.FALSE).getEmployee();
     }
 
+    //  Физическое удаление связи Сотрудник - Кабинет
+    @Override
+    public void physicalRemoveEmployeeFromCabinet(Integer employeeId, Integer cabinetId) {
+        employeeCabinetJoinService.removeJoin(employeeId, cabinetId);
+    }
+
+
     /*
     //  Связать существующую сущность Сотрудник с первым свободным Паспортом
     @Override

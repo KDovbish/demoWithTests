@@ -178,6 +178,13 @@ public interface EmployeeService {
      */
     Employee logicalRemoveEmployeeFromCabinet(Integer employeeId, Integer cabinetId);
 
+    /**
+     * Полное удаление связи Сотрдуник-Кабинет на уровне бд
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param cabinetId Идентификатор Кабинета в бд
+     */
+    void physicalRemoveEmployeeFromCabinet(Integer employeeId, Integer cabinetId);
+
 
 
 

@@ -15,6 +15,7 @@ public class EmployeeCabinetJoinServiceBean implements EmployeeCabinetJoinServic
 
     EmployeeCabinetJoinRepository employeeCabinetJoinRepository;
 
+    //  Создать соединение Сотрудник - Кабинет
     @Override
     public EmployeeCabinetJoinEntity makeJoin(Employee employee, Cabinet cabinet) {
         EmployeeCabinetJoinEntity joinEntity = new EmployeeCabinetJoinEntity();
@@ -24,6 +25,7 @@ public class EmployeeCabinetJoinServiceBean implements EmployeeCabinetJoinServic
         return employeeCabinetJoinRepository.save(joinEntity);
     }
 
+    //  Получить сущность соединения
     @Override
     public EmployeeCabinetJoinEntity getById(Integer employeeId, Integer cabinetId) {
         return employeeCabinetJoinRepository
@@ -31,10 +33,17 @@ public class EmployeeCabinetJoinServiceBean implements EmployeeCabinetJoinServic
                 .orElseThrow(() -> new ResourceNotFoundException("EmployeeCabinetJoinEntity is not found"));
     }
 
+    //  Установить логический статус соединения
     @Override
     public EmployeeCabinetJoinEntity setJoinStatus(Integer employeeId, Integer cabinetId, Boolean status) {
         EmployeeCabinetJoinEntity employeeCabinetJoinEntity = getById(employeeId, cabinetId);
         employeeCabinetJoinEntity.setActive(status);
         return employeeCabinetJoinRepository.save(employeeCabinetJoinEntity);
+    }
+
+    //  Физически удалить соединение
+    @Override
+    public void removeJoin(Integer employeeId, Integer cabinetId) {
+        employeeCabinetJoinRepository.delete(getById(employeeId, cabinetId));
     }
 }
