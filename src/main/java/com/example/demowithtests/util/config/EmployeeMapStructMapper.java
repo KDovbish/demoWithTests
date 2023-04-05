@@ -8,7 +8,7 @@ import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", builder = @Builder(disableBuilder = false))
+@Mapper(componentModel = "spring", builder = @Builder(disableBuilder = false), uses = {EmployeeCabinetJoinMapper.class})
 public interface EmployeeMapStructMapper {
 
     //  Логика создания сущностей из DTO для сохранения в БД
@@ -27,6 +27,11 @@ public interface EmployeeMapStructMapper {
     EmployeeDto employeeToEmployeeDto(Employee employee);
     EmployeeReadDto employeeToEmployeeReadDto(Employee employee);
     PhotoDto photoToPhotoDto(Photo photo);
+
+    //  Employee -> EmployeeResponseDto
+    //  Маперу дополнительно сообщается откуда брать коллекцию Кабинетов для EmployeeResponseDto.
+    //  Принципы отображения коллекции сущностей Join-таблицы на коллекцию Кабинетов прописаны в мапере EmployeeCabinetJoinMapper(подключен через параметр @Mapper(uses = ...))
+    @Mapping(target = "cabinets", source = "employeeCabinetJoinEntities")
     EmployeeResponseDto employeeToEmployeeResponseDto(Employee employee);
 
 
