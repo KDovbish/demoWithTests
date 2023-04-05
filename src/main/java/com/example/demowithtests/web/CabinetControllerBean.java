@@ -47,4 +47,12 @@ public class CabinetControllerBean implements CabinetController {
                 .map(e -> cabinetMapper.cabinetToCabinetResponseDto(e))
                 .collect(Collectors.toList());
     }
+
+    //  Логически удалить Кабинет
+    @Override
+    @PatchMapping("/cabinets/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCabinet(@PathVariable Integer id) {
+        cabinetService.removeCabinet(id);
+    }
 }

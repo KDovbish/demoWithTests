@@ -18,4 +18,7 @@ public interface CabinetController {
 
     @Operation(summary = "Получить все Кабинеты", description = "Получить все неудаленные логически сущности Кабинет", tags = {"Cabinet"})
     List<CabinetResponseDto> readAllCabinet();
+
+    @Operation(summary = "Удалить Кабинет", description = "Логическое(простановка метки) удаление Кабинета", tags = {"Cabinet"})
+    void deleteCabinet(Integer id);
 }

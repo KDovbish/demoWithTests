@@ -35,4 +35,11 @@ public class CabinetServiceBean implements CabinetService {
         return cabinetRepositary.findAll( Example.of(new Cabinet().setDeleted(Boolean.FALSE)) );
     }
 
+    //  Логичски удалить сущность Кабинет
+    @Override
+    public void removeCabinet(Integer id) {
+        cabinetRepositary.save( getCabinet(id).setDeleted(Boolean.TRUE) );
+    }
+
+
 }
