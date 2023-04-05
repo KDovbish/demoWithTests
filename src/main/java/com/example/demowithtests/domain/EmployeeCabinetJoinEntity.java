@@ -2,6 +2,7 @@ package com.example.demowithtests.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -31,5 +32,6 @@ public class EmployeeCabinetJoinEntity {
     private Cabinet cabinet;
 
     //  Дополнительно введеный признак допустимости использования данного соединения
+    @Accessors(chain = true)
     Boolean active;
 }

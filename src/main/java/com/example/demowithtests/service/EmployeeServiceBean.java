@@ -411,10 +411,26 @@ public class EmployeeServiceBean implements EmployeeService {
     //  Связать Сотрудника с Кабинетом
     @Override
     public Employee addEmployeeToCabinet(Integer employeeId, Integer cabinetId) {
+
+        try {
+            //  На этапе поиска сущности соединения будет генерироваться исключение, если соединение отсутствует.
+            //  Это сигнал к тому, что нужно создавать новое соединение
+            log.info("Попытка поиска существующего соединения для установки активного статуса связи Сотрудник - Кабинет в join-таблице");
+            return employeeCabinetJoinService.setJoinStatus(employeeId, cabinetId, Boolean.TRUE).getEmployee();
+        } catch (ResourceNotFoundException e) {
+            log.info("Создание новой связи Сотрудник - Кабинет в join-таблице");
+            Employee employee = getById(employeeId);
+            Cabinet cabinet = cabinetService.getCabinet(cabinetId);
+            employeeCabinetJoinService.makeJoin(employee, cabinet);
+            return employee;
+        }
+
+/*
         Employee employee = getById(employeeId);
         Cabinet cabinet = cabinetService.getCabinet(cabinetId);
         employeeCabinetJoinService.makeJoin(employee, cabinet);
         return employee;
+*/
     }
 
     //  Логическое удаление связи Сотрудник - Кабинет

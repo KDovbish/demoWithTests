@@ -37,4 +37,5 @@ public interface EmployeeCabinetJoinService {
      */
     void removeJoin(Integer employeeId, Integer cabinetId);
 
+
 }
