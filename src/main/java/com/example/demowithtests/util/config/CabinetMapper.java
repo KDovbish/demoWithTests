@@ -2,6 +2,7 @@ package com.example.demowithtests.util.config;
 
 import com.example.demowithtests.domain.Cabinet;
 import com.example.demowithtests.dto.CabinetCreateDto;
+import com.example.demowithtests.dto.CabinetRequestDto;
 import com.example.demowithtests.dto.CabinetResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,4 +15,5 @@ public interface CabinetMapper {
     Cabinet cabinetCreateDtoToCabinet(CabinetCreateDto cabinetCreateDto);
 
     CabinetResponseDto cabinetToCabinetResponseDto(Cabinet cabinet);
+    Cabinet cabinetRequestDtoToCabinet(CabinetRequestDto cabinetRequestDto);
 }

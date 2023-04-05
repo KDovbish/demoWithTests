@@ -1,6 +1,7 @@
 package com.example.demowithtests.service;
 
 import com.example.demowithtests.domain.Cabinet;
+import com.example.demowithtests.dto.CabinetResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,13 @@ public interface CabinetService {
      */
     void removeCabinet(Integer id);
 
+    /**
+     * Обновление сущности Кабинет
+     * @param id Идентификатор сущности Кабинет в бд
+     * @param cabinet Параметры для обновления
+     * @return Обновленная сущность Кабинет
+     */
+    Cabinet update(Integer id, Cabinet cabinet);
 
 
 }

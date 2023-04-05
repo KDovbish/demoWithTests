@@ -41,5 +41,12 @@ public class CabinetServiceBean implements CabinetService {
         cabinetRepositary.save( getCabinet(id).setDeleted(Boolean.TRUE) );
     }
 
-
+    //  Обновить сущность Кабинет
+    @Override
+    public Cabinet update(Integer id, Cabinet cabinet) {
+        Cabinet cabinetForUpdate = getCabinet(id);
+        cabinetForUpdate.setName(cabinet.getName());
+        cabinetForUpdate.setCapacity(cabinet.getCapacity());
+        return cabinetRepositary.save(cabinetForUpdate);
+    }
 }

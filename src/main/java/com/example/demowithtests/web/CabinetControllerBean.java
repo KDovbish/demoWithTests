@@ -1,6 +1,7 @@
 package com.example.demowithtests.web;
 
 import com.example.demowithtests.dto.CabinetCreateDto;
+import com.example.demowithtests.dto.CabinetRequestDto;
 import com.example.demowithtests.dto.CabinetResponseDto;
 import com.example.demowithtests.service.CabinetService;
 import com.example.demowithtests.util.config.CabinetMapper;
@@ -54,5 +55,15 @@ public class CabinetControllerBean implements CabinetController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCabinet(@PathVariable Integer id) {
         cabinetService.removeCabinet(id);
+    }
+
+    //  Обновить параметры Кабинета
+    @Override
+    @PutMapping("/cabinets/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CabinetResponseDto updateCabinet(@PathVariable Integer id, @RequestBody CabinetRequestDto cabinetRequestDto) {
+        return cabinetMapper.cabinetToCabinetResponseDto(
+                cabinetService.update(id, cabinetMapper.cabinetRequestDtoToCabinet(cabinetRequestDto))
+        );
     }
 }
