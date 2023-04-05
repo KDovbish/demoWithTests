@@ -17,4 +17,5 @@ public class EmployeeResponseDto {
     public Gender gender;
     public Set<PhotoDto> photos = new HashSet<>();
     public PassportResponseDto passport;
+    public Set<CabinetResponseDto> cabinets = new HashSet<>();
 }
