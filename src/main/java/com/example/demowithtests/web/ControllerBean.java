@@ -6,6 +6,7 @@ import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.domain.PassportState;
 import com.example.demowithtests.domain.Photo;
 import com.example.demowithtests.dto.*;
+import com.example.demowithtests.service.EmployeeCabinetJoinService;
 import com.example.demowithtests.service.EmployeeService;
 import com.example.demowithtests.util.config.EmployeeMapStructMapper;
 import com.example.demowithtests.util.config.PassportMapper;
@@ -276,6 +277,7 @@ public class ControllerBean implements Controller {
                     .collect(Collectors.toList());
     }
 
+
     //  Добавить Сотрудника в Кабинет
     @Override
     @PutMapping("/users/{employeeId}/cabinets/{cabinetId}/add")
@@ -284,8 +286,15 @@ public class ControllerBean implements Controller {
         return employeeMapStructMapper.employeeToEmployeeResponseDto(employeeService.addEmployeeToCabinet(employeeId, cabinetId));
     }
 
+    //  Прописать статус связи Сотрудник-Кабинет
+    @Override
+    @PutMapping("/users/{employeeId}/cabinets/{cabinetId}/remove")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponseDto removeEmployeeFromCabinet(@PathVariable Integer employeeId, @PathVariable Integer cabinetId) {
+        return employeeMapStructMapper.employeeToEmployeeResponseDto( employeeService.logicalRemoveEmployeeFromCabinet(employeeId, cabinetId) );
+    }
 
-/*
+    /*
     //  Связать Сотрудника и первый свободный Паспорт
     @Override
     @PutMapping("/users/{employeeId}/passports")

@@ -169,6 +169,15 @@ public interface EmployeeService {
      */
     Employee addEmployeeToCabinet(Integer employeeId, Integer cabinetId);
 
+    /**
+     * Логическое удаление Сотрудника из Кабинета.
+     * Метод прописывает для заданного соеденения Сотрудник-Кабинет статус его неактивности
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param cabinetId Идентификатор Кабинета в бд
+     * @return Обновленная сущность Сотрудник
+     */
+    Employee logicalRemoveEmployeeFromCabinet(Integer employeeId, Integer cabinetId);
+
 
 
 

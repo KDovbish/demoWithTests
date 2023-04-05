@@ -417,7 +417,11 @@ public class EmployeeServiceBean implements EmployeeService {
         return employee;
     }
 
-
+    //  Логическое удаление связи Сотрудник - Кабинет
+    @Override
+    public Employee logicalRemoveEmployeeFromCabinet(Integer employeeId, Integer cabinetId) {
+        return employeeCabinetJoinService.setJoinStatus(employeeId, cabinetId, Boolean.FALSE).getEmployee();
+    }
 
     /*
     //  Связать существующую сущность Сотрудник с первым свободным Паспортом

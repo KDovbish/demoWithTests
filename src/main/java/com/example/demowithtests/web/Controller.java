@@ -207,8 +207,12 @@ public interface Controller {
     })
     EmployeeResponseDto addEmployeeToCabinet(Integer employeeId, Integer cabinetId);
 
-
-
+    @Operation(summary = "Удалить Сотрудника из Кабинета", description = "Логическое удаление: проставляется признак неактвности связи Сотрудник - Кабинет", tags = {"Employee"})
+    @Parameters(value = {
+            @Parameter(name = "employeeId", description = "Иденентификатор сущности Сотрудник в бд"),
+            @Parameter(name = "cabinetId", description = "Идентификатор сущности Кабинет в бд")
+    })
+    EmployeeResponseDto removeEmployeeFromCabinet(Integer employeeId, Integer cabinetId);
 
 
 

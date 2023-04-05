@@ -12,4 +12,23 @@ public interface EmployeeCabinetJoinService {
      * @return Созданная сущность связи
      */
     EmployeeCabinetJoinEntity makeJoin(Employee employee, Cabinet cabinet);
+
+    /**
+     * Получить сущность соединяющей таблицы Сотрудник-Кабинет
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param cabinetId Идентификатор Кабинета в бд
+     * @return Сущность соединяющей таблицы
+     */
+    EmployeeCabinetJoinEntity getById(Integer employeeId, Integer cabinetId);
+
+
+    /**
+     * Прописать статус связи Сотрудник - Кабинет
+     * @param employeeId Идентификатор Сотрудника в бд
+     * @param cabinetId Идентификатор Кабинета в бд
+     * @param status активная(true)/неактивная(false)
+     * @return Обновленная сущность соединяющей таблицы
+     */
+    EmployeeCabinetJoinEntity setJoinStatus(Integer employeeId, Integer cabinetId, Boolean status);
+
 }
