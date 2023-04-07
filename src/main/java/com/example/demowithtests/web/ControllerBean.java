@@ -1,6 +1,5 @@
 package com.example.demowithtests.web;
 
-import com.electronwill.nightconfig.core.conversion.Path;
 import com.example.demowithtests.domain.Employee;
 import com.example.demowithtests.domain.Gender;
 import com.example.demowithtests.domain.PassportState;

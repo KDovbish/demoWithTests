@@ -1,25 +1,32 @@
-create sequence if not exists users_id_seq;
-create sequence if not exists addresses_id_seq;
+CREATE SEQUENCE users_id_seq;
+CREATE SEQUENCE passports_id_seq;
 
-create table public.users (
-                              id integer primary key not null default nextval('users_id_seq'::regclass),
-                              name character varying,
-                              email character varying,
-                              country character varying,
-                              is_deleted boolean
-);
-create unique index users_id_uindex on users using btree (id);
-
-create table public.addresses (
-                                  id bigint primary key not null default nextval('addresses_id_seq'::regclass),
-                                  address_has_active boolean,
-                                  city character varying(255),
-                                  country character varying(255),
-                                  street character varying(255),
-                                  employee_id integer,
-                                  foreign key (employee_id) references public.users (id)
-                                      match simple on update no action on delete no action
+CREATE TABLE passports
+(
+    id integer PRIMARY KEY DEFAULT nextval('users_id_seq'::regclass),
+    date_of_birthday timestamp,
+    expire_date timestamp,
+    first_name varchar(255),
+    second_name varchar(255),
+    serial_number varchar(255),
+    deleted boolean,
+    state integer,
+    next_id integer,
+    prev_id integer,
+    FOREIGN KEY (next_id) REFERENCES passports (id) ON UPDATE NO ACTION ON DELETE NO ACTION,
+    FOREIGN KEY (prev_id) REFERENCES passports (id) ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-
-
+CREATE TABLE users
+(
+    id integer PRIMARY KEY DEFAULT nextval('users_id_seq'::regclass),
+    name varchar(255),
+    email varchar(255),
+    country varchar(255),
+    gender varchar(255),
+    is_deleted boolean,
+    deny_users varchar(255),
+    visible boolean,
+    passport_id integer,
+    FOREIGN KEY (passport_id) REFERENCES passports (id) ON UPDATE NO ACTION ON DELETE NO ACTION
+);
