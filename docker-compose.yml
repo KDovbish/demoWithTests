@@ -1,0 +1,28 @@
+version: "3"
+
+volumes:
+  pgdatavolume:
+
+services:
+
+  postgresql:
+    image: postgres:15
+    container_name: postgres-container
+    volumes:
+      - pgdatavolume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=employee
+      - PGDATA=/var/lib/postgresql/data
+    ports:
+      - "5432"
+
+  app:
+    image: demo-with-test-image:1
+    container_name: demo-with-test-container
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "9087:8087"
