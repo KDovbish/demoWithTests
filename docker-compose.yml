@@ -17,6 +17,11 @@ services:
       - PGDATA=/var/lib/postgresql/data
     ports:
       - "5432"
+    healthcheck:
+      test: pg_isready
+      interval: 1m
+      timeout: 10s
+      retries: 5
 
   app:
     image: demo-with-test-image:1
@@ -26,3 +31,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9087:8087"
+    healthcheck:
+      test: curl --fail http://app:8087/actuator/health
+      interval: 1m
+      timeout: 10s
+      retries: 5
