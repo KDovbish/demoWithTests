@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import javax.sql.DataSource;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,9 +52,12 @@ public class EmployeeControllerBeanTest {
     @MockBean
     PassportMapper passportMapper;
 
+    @MockBean
+    DataSource dataSource;
+
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     @DisplayName("POST /api/users")
     public void saveEmployee() throws Exception {
 
@@ -79,7 +84,7 @@ public class EmployeeControllerBeanTest {
 
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     @DisplayName("POST /api/users/generate")
     public void generateEmployee() throws Exception {
 

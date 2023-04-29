@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import javax.sql.DataSource;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -41,8 +43,11 @@ public class PassportControllerBeanTests {
     @MockBean
     PassportMapper passportMapper;
 
+    @MockBean
+    DataSource dataSource;
+
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(authorities = "ADMIN")
     public void removeById() throws Exception {
 
         //  Заглушка для выполнения сервисного метода
@@ -61,7 +66,7 @@ public class PassportControllerBeanTests {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
+    @WithMockUser(authorities = "USER")
     public void getPassportById() throws Exception {
 
         PassportResponseDto passportResponseDto = new PassportResponseDto();
