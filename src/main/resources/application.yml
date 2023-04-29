@@ -3,7 +3,12 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgresql:5432/employee
+
+    # for Docker
+    #url: jdbc:postgresql://postgresql:5432/employee
+    # for real comp
+    url: jdbc:postgresql://localhost:5432/employee
+
     username: postgres
     password: postgres
   # JPA properties
